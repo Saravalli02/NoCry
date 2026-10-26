@@ -1,0 +1,107 @@
+"""Servidor NOCRY: formulário privado via Discord Webhook."""
+import os, re, time, json
+from threading import Lock
+from collections import defaultdict, deque
+from pathlib import Path
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError
+from flask import Flask, request, jsonify, send_from_directory
+
+BASE = Path(__file__).resolve().parent
+app = Flask(__name__, static_folder=None)
+app.config['MAX_CONTENT_LENGTH'] = 8192
+hits = defaultdict(deque)
+CLASSES = {'Lutador','Mecânico','Arqueira','Pike','Assassina','Cavaleiro','Atalanta','Sacerdotisa','Mago','Xamã','Outra'}
+
+def clean(value, limit):
+    return str(value or '').strip()[:limit].replace('@', '＠').replace('`', "'")
+
+_boss_cache = {'at': 0.0, 'data': None}
+_boss_lock = Lock()
+
+@app.get('/api/bosses')
+def boss_api():
+    """Consulta pública, com cache, sem expor credenciais ou sobrecarregar a origem."""
+    with _boss_lock:
+        now = time.monotonic()
+        if _boss_cache['data'] is not None and now - _boss_cache['at'] < 45:
+            return jsonify(_boss_cache['data'])
+        try:
+            req = Request('https://pweb.world/api/map-spawns', headers={
+                'User-Agent': 'NOCRY-Guild-Website/1.0', 'Accept': 'application/json'})
+            with urlopen(req, timeout=9) as resp:
+                data = json.loads(resp.read(1024 * 1024).decode('utf-8'))
+            if not isinstance(data, dict) or not isinstance(data.get('bosses'), list):
+                raise ValueError('Formato de dados inesperado')
+            _boss_cache.update(at=now, data=data)
+            return jsonify(data)
+        except (HTTPError, URLError, TimeoutError, ValueError, json.JSONDecodeError):
+            app.logger.warning('API de bosses indisponível', exc_info=True)
+            if _boss_cache['data'] is not None:
+                return jsonify(_boss_cache['data'])
+            return jsonify(error='API de bosses indisponível no momento'), 502
+
+@app.get('/')
+def home():
+    return send_from_directory(BASE, 'index.html')
+
+@app.get('/assets/<path:name>')
+def assets(name):
+    return send_from_directory(BASE / 'assets', name)
+
+@app.get('/ativos/<path:name>')
+def ativos(name):
+    return send_from_directory(BASE / 'ativos', name)
+
+@app.post('/api/inscricao')
+def inscricao():
+    webhook = os.environ.get('DISCORD_RECRUTAMENTO_WEBHOOK', '').strip()
+    if not webhook.startswith('https://discord.com/api/webhooks/') and not webhook.startswith('https://discordapp.com/api/webhooks/'):
+        return jsonify(error='Recrutamento ainda não configurado. Avise a equipe NOCRY.'), 503
+    ip = request.remote_addr or 'unknown'
+    now = time.monotonic()
+    recent = hits[ip]
+    while recent and now - recent[0] > 3600:
+        recent.popleft()
+    if len(recent) >= 3:
+        return jsonify(error='Limite de inscrições atingido. Tente novamente mais tarde.'), 429
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify(error='Dados inválidos.'), 400
+    if data.get('website'):
+        return jsonify(ok=True), 200
+    if data.get('consentimento') != 'on':
+        return jsonify(error='Confirme a autorização para contato.'), 400
+    nome = clean(data.get('personagem'), 50)
+    classe = clean(data.get('classe'), 30)
+    nivel = str(data.get('nivel', '')).strip()
+    discord = clean(data.get('discord'), 60)
+    whatsapp = re.sub(r'\D', '', str(data.get('whatsapp', '')))
+    if not (2 <= len(nome) <= 50 and 2 <= len(discord) <= 60 and classe in CLASSES and nivel.isdecimal() and 1 <= int(nivel) <= 999 and 10 <= len(whatsapp) <= 13):
+        return jsonify(error='Confira personagem, classe, nível, Discord e WhatsApp com DDD.'), 400
+    import json
+    payload = {
+        'username': 'Recrutamento NOCRY',
+        'allowed_mentions': {'parse': []},
+        'embeds': [{'title': '⚔️ Nova inscrição — CLAN NOCRY', 'color': 15155230,
+            'fields': [{'name': 'Personagem', 'value': nome, 'inline': True},
+                       {'name': 'Classe', 'value': classe, 'inline': True},
+                       {'name': 'Nível', 'value': nivel, 'inline': True},
+                       {'name': 'Discord', 'value': discord, 'inline': False},
+                       {'name': 'WhatsApp', 'value': '+' + whatsapp if len(whatsapp) > 11 else whatsapp, 'inline': False}],
+            'footer': {'text': 'Formulário de recrutamento • NOCRY'}}]
+    }
+    try:
+        req = Request(webhook, data=json.dumps(payload, ensure_ascii=False).encode('utf-8'),
+                      headers={'Content-Type':'application/json', 'User-Agent':'NOCRY-Site/1.0'}, method='POST')
+        with urlopen(req, timeout=10) as response:
+            if response.status not in (200, 204):
+                raise ValueError('Discord não confirmou o envio')
+    except (HTTPError, URLError, TimeoutError, ValueError):
+        app.logger.exception('Falha no envio ao Discord')
+        return jsonify(error='Discord indisponível no momento. Tente novamente.'), 502
+    recent.append(now)
+    return jsonify(ok=True), 200
+
+if __name__ == '__main__':
+    app.run(host='127.0.0.1', port=int(os.environ.get('PORT','5000')))
