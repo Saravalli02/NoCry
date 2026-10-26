@@ -1,0 +1,7 @@
+NOCRY V2 — EFEITOS DE FOGO E TIPOGRAFIA
+
+- Logo original assets/logo.jpg preservado sem alterações.
+- Círculo de fogo animado por CSS, halo luminoso e brasas.
+- Título CLÃ NOCRY com fonte Cinzel Decorative, inspirada em fantasia medieval; carregamento Google Fonts requer internet.
+- Formulário e integração Discord mantidos.
+- Siga INSTRUCOES.txt para configurar o servidor e webhook.

@@ -1,0 +1,21 @@
+SITE NOCRY + RECRUTAMENTO NO DISCORD
+
+1) No Discord: crie um canal PRIVADO #recrutamento-nocry.
+2) Edite o canal > Integrações > Webhooks > Novo webhook > Copiar URL.
+3) NUNCA coloque a URL no index.html nem compartilhe publicamente.
+4) No Windows, abra o Prompt de Comando nesta pasta e execute:
+   py -m pip install -r requirements.txt
+   set DISCORD_RECRUTAMENTO_WEBHOOK=https://discord.com/api/webhooks/SEU_WEBHOOK
+   py app.py
+5) Abra http://127.0.0.1:5000 no navegador e teste uma inscrição.
+6) Para deixar ONLINE, hospede em servidor que execute Python (Flask),
+   configure a variável de ambiente DISCORD_RECRUTAMENTO_WEBHOOK
+   e ative HTTPS. Hospedagem só de HTML não executa este backend.
+7) Para produção: utilize um servidor WSGI, proxy HTTPS, proteção
+   anti-spam persistente e política de privacidade apropriada.
+
+IMPORTANTE: não é necessário modificar o BOT NOCRY V4. O webhook
+publica mensagens no canal de recrutamento, independentemente do bot.
+A API dos bosses continua consultada pelo navegador; poderá exigir
+proxy autorizado se o ZephiraWorld restringir CORS.
+Ranking e pesquisa de personagens aguardam fonte oficial.

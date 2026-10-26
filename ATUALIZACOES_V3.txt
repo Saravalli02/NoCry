@@ -1,0 +1,9 @@
+NOCRY V3 — Atualizações
+1. Logo original preservado em assets/logo.jpg; exibição com máscara circular CSS (sem alterar arquivo).
+2. Anel de chamas com movimento, oscilação de brilho e faíscas.
+3. Fonte do título CLÃ NOCRY em estilo medieval dourado/metálico.
+4. Horários dos bosses por /api/bosses (proxy Flask da API pública map-spawns com cache de 45 segundos).
+5. Miniaturas dos modelos reais de Babel e Valento (referências fornecidas anteriormente); demais bosses mostram ícone provisório para NÃO atribuir imagens erradas.
+6. Formulário Discord mantido. Configurar DISCORD_RECRUTAMENTO_WEBHOOK no ambiente.
+7. Iniciar: pip install -r requirements.txt ; python app.py ; abrir http://127.0.0.1:5000
+Atenção: não foi possível validar ao vivo a disponibilidade da API neste ambiente. O site informa erro se a origem estiver inacessível.
