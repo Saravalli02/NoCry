@@ -150,6 +150,33 @@ def register():
         return error('Conta criada, mas não foi possível enviar o e-mail. Contate a liderança.',503)
     return jsonify(ok=True,message='Conta criada! Verifique seu e-mail.'),201
 
+@portal.post('/api/auth/resend-verification')
+def resend_verification():
+    """Reenvia confirmação sem revelar se um endereço está cadastrado."""
+    d=body()
+    email=str(d.get('email','')).strip().lower()
+    if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+',email) or len(email)>254:
+        return error('Informe um e-mail válido.')
+    ip=request.headers.get('X-Forwarded-For',request.remote_addr or '').split(',')[0].strip()[:45]
+    # Limite por IP e endereço, sem exigir login de uma conta ainda não confirmada.
+    bucket='verify:'+hashlib.sha256((ip+'|'+email).encode()).hexdigest()[:40]
+    cutoff=utcnow()-timedelta(minutes=15)
+    db.session.query(LoginAttempt).filter(LoginAttempt.created_at<cutoff).delete()
+    if LoginAttempt.query.filter_by(key=bucket).count()>=3:
+        db.session.commit()
+        return error('Muitas solicitações. Aguarde 15 minutos antes de tentar novamente.',429)
+    db.session.add(LoginAttempt(key=bucket))
+    db.session.commit()
+    u=User.query.filter_by(email=email).first()
+    if u and not u.verified:
+        try:
+            if not mail_verification(u):
+                return error('Envio de e-mail não configurado. Contate a liderança.',503)
+        except Exception:
+            current_app.logger.exception('Falha ao reenviar confirmação')
+            return error('Não foi possível enviar o e-mail agora. Tente novamente mais tarde.',503)
+    return jsonify(ok=True,message='Se existir uma conta pendente com esse e-mail, enviaremos um novo link de confirmação.')
+
 @portal.get('/api/auth/verify')
 def verify():
     try: d=serializer().loads(request.args.get('token',''),max_age=86400)
