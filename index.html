@@ -208,6 +208,31 @@ header .brand img.nocry-brand-logo{display:block;width:62px;height:62px;object-f
 #nocryLeaders .nocry-silent-card{isolation:isolate}
 #nocryLeaders .nocry-silent-name{position:absolute;z-index:2;right:2.5%;top:24%;width:56%;height:31%;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,#190b08 0%,#180907 78%,#1c0907 100%);color:#fff0d4;font-family:"Oxanium",sans-serif;font-weight:800;font-size:clamp(13px,1.8vw,26px);letter-spacing:-.035em;text-shadow:0 2px 1px #8e2f0b,0 0 8px #ff7a2a;white-space:nowrap}
 @media(max-width:850px){#nocryLeaders{grid-template-columns:1fr;max-width:650px;margin:0 auto}#nocryLeaders .nocry-silent-name{font-size:clamp(20px,5vw,33px)}}
+
+/* Ajuste definitivo: artes originais completas, sem cortes, sem texto sobreposto. */
+#nocryLeaders.nocry-highlight-grid{
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:18px!important;max-width:none!important;margin:0!important;align-items:start!important;
+}
+#nocryLeaders .nocry-leader-art{
+ position:relative!important;display:block!important;box-sizing:border-box!important;
+ width:100%!important;height:auto!important;aspect-ratio:auto!important;min-height:0!important;
+ margin:0!important;padding:0!important;overflow:hidden!important;
+ border:1px solid #ffb35a!important;border-radius:12px!important;
+ background:#170a08!important;box-shadow:0 0 12px #ff8d3875,0 0 24px #ff5c2826!important;
+}
+#nocryLeaders .nocry-leader-art img{
+ display:block!important;width:100%!important;height:auto!important;max-width:100%!important;
+ aspect-ratio:auto!important;object-fit:contain!important;object-position:center!important;
+ transform:none!important;margin:0!important;padding:0!important;
+}
+#nocryLeaders .nocry-silent-name{display:none!important}
+@media(max-width:1000px){
+ #nocryLeaders.nocry-highlight-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:15px!important}
+}
+@media(max-width:640px){
+ #nocryLeaders.nocry-highlight-grid{grid-template-columns:1fr!important;max-width:520px!important;margin:0 auto!important}
+}
 </style></head><body><header><div class="brand"><img class="nocry-brand-logo" src="/assets/logo.jpg" alt="Logo NOCRY"><div class="nocry-brand-lines"><strong>NOCRY / N0CRY / NOWCRY</strong></div></div><nav><button class="active" data-tab="inicio">🔥 Início</button><button data-tab="membros">👥 Membros</button><button data-tab="ranking">🏆 Ranking</button><button data-tab="pesquisa">🔎 Personagem</button><button data-tab="galeria">📸 Galeria</button><button data-tab="inscricao">⚔️ Inscrever-se</button></nav></header><main>
 <section id="inicio"><div class="hero"><div class="hero-content"><div class="crest-fire" aria-label="Emblema original NOCRY com círculo de fogo animado"><canvas id="fireCanvas" class="fire-canvas" aria-hidden="true"></canvas><div class="flame-halo"></div><div class="flame-ring"></div><div class="ember-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><img src="assets/logo.jpg" alt="Logo original CLAN NOCRY ZEPHIRA"></div><p class="world-title">ZEPHIRAWORLD • PRISTON TALE</p></div></div><div class="kpis"><div class="kpi"><small>Bosses monitorados</small><strong id="total">—</strong></div><div class="kpi"><small>Bosses nível 70+</small><strong id="elite">—</strong></div><div class="kpi"><small>Próximo nascimento</small><strong id="next">—</strong></div><div class="kpi"><small>Fonte de dados</small><strong id="apiStatus" style="font-size:17px">Conectando...</strong></div></div><div class="nocry-showcase" aria-label="Destaques do clã NOCRY">
 <div><div class="nocry-showcase-head"><h2>👑 LÍDERES DO CLÃ</h2></div><div id="nocryLeaders" class="nocry-highlight-grid"></div></div>
@@ -327,7 +352,7 @@ document.getElementById('nocryLeaders').innerHTML=[
   ['snoopy','Snoopy • Líder • Atalanta'],
   ['kundo','KUNDO • Sub-líder • Pike'],
   ['zsilentedge','zSilentEdge • Sub-líder • Cavaleiro']
-].map(([file,label])=>`<div class="nocry-leader-art ${file==='zsilentedge'?'nocry-silent-card':''}"><img src="/assets/leaders/${file}.webp" alt="${label}" loading="lazy">${file==='zsilentedge'?'<div class="nocry-silent-name">zSilentEdge</div>':''}</div>`).join('');
+].map(([file,label])=>`<div class="nocry-leader-art"><img src="/assets/leaders/${file}.webp" alt="${label}" loading="lazy"></div>`).join('');
 document.getElementById('nocryTop').innerHTML=nocryMembers
   .filter(m=>Number(m.nivel)===Math.max(...nocryMembers.map(x=>Number(x.nivel))))
   .sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'))
