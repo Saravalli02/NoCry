@@ -140,6 +140,13 @@ def register():
     if not (re.search(r'[A-Z]',pw) and re.search(r'[a-z]',pw) and re.search(r'[0-9]',pw) and re.search(r'[^A-Za-z0-9]',pw)):
         return error('A senha precisa ter letra maiúscula, minúscula, número e caractere especial.')
     if pw!=str(d.get('confirm','')):return error('As senhas não conferem.')
+    char_name=str(d.get('nome','')).strip()
+    if not re.fullmatch(r'[\\w.\\[\\]\\-]{2,50}',char_name,re.UNICODE):
+        return error('Nome do personagem inválido (2 a 50 caracteres).')
+    key=char_name.casefold()
+    existing=Character.query.filter_by(name_key=key).first()
+    if existing and (existing.owner_id is not None or Claim.query.filter_by(character_id=existing.id,status='pending').first()):
+        return error('Este personagem já está vinculado ou aguardando aprovação de outra conta.',409)
     ip=request.remote_addr or 'unknown'
     bucket='signup:'+hashlib.sha256(ip.encode()).hexdigest()[:40]
     cutoff=utcnow()-timedelta(hours=1)
@@ -154,13 +161,20 @@ def register():
     db.session.add(u)
     try:
         db.session.flush()
+        ch=existing
+        if ch is None:
+            ch=Character(name=char_name,name_key=key,klass='Pendente',tag='NOCRY',level=1,percent=0,owner_id=None)
+            db.session.add(ch)
+            db.session.flush()
+        # A posse é reservada durante a análise e só se torna efetiva após aprovação.
+        db.session.add(Claim(character_id=ch.id,user_id=u.id,status='pending'))
         db.session.add(LoginAttempt(key=bucket))
         db.session.commit()
     except (IntegrityError,ValueError):
         db.session.rollback()
         return error('Não foi possível concluir o cadastro. Confira o login e o personagem.',409)
 
-    return jsonify(ok=True,message='Conta criada! Aguarde a aprovação da liderança. Depois entre e cadastre seus personagens.'),202
+    return jsonify(ok=True,message='Solicitação recebida! Aguarde a aprovação da conta e do personagem pela liderança.'),202
 
 @portal.post('/api/auth/login')
 def login():
@@ -298,7 +312,7 @@ def account_decision(u,uid):
         for cl in claims:
             cl.status='rejected'
             ch=db.session.get(Character,cl.character_id)
-            if ch and ch.owner_id is None and not ch.role and Claim.query.filter(Claim.character_id==ch.id,Claim.id!=cl.id,Claim.status=='pending').count()==0:
+            if ch and ch.klass=='Pendente' and ch.owner_id is None and not ch.role and Claim.query.filter(Claim.character_id==ch.id,Claim.id!=cl.id,Claim.status=='pending').count()==0:
                 db.session.delete(ch)
         for cl in Claim.query.filter_by(user_id=account.id).all():db.session.delete(cl)
         db.session.delete(account)
