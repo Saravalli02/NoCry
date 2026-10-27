@@ -212,7 +212,14 @@ def characters():
     q=Character.query.filter(~((Character.owner_id.is_(None)) & (Character.role=='') & (Character.id.in_(pending_new))))
     q=q.filter(Character.klass!='Pendente')
     if tag:q=q.filter_by(tag=tag)
-    return jsonify(characters=[public_char(c) for c in q.order_by(Character.level.desc(),Character.name).all()])
+    visible=q.order_by(Character.level.desc(),Character.name).all()
+    # Unique approved player accounts, not character slots; exclude admin accounts.
+    linked_ids={ch.owner_id for ch in visible if ch.owner_id is not None}
+    approved=User.query.filter(User.id.in_(linked_ids),User.verified.is_(True),User.is_admin.is_(False)).count() if linked_ids else 0
+    return jsonify(characters=[public_char(c) for c in visible],
+                   stats=dict(characters=len(visible),players=approved,
+                              unlinked_characters=sum(ch.owner_id is None for ch in visible),
+                              tags={t:sum(ch.tag==t for ch in visible) for t in TAGS}))
 
 @portal.get('/api/me/characters')
 @auth
