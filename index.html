@@ -525,6 +525,84 @@ header.nocry-premium-header nav button:hover{transform:translateY(-1px)}
  header.nocry-premium-header nav button{font-size:12px!important;min-height:44px!important}
 }
 @media(prefers-reduced-motion:reduce){header.nocry-premium-header nav button{transition:none!important}}
+
+/* NOCRY: cabeçalho medieval em duas faixas, com contraste dinâmico na rolagem */
+header.nocry-premium-header{
+ position:sticky!important;top:0!important;z-index:110!important;
+ gap:10px!important;padding:12px max(18px,calc((100vw - 1200px)/2)) 11px!important;
+ background:linear-gradient(180deg,rgba(10,8,9,.78),rgba(12,8,9,.57))!important;
+ background-image:none!important;
+ border-bottom:1px solid #d58a42a8!important;
+ box-shadow:0 3px 18px #0008!important;
+ backdrop-filter:blur(9px)!important;-webkit-backdrop-filter:blur(9px)!important;
+ transition:background .22s,box-shadow .22s,padding .22s!important;
+}
+header.nocry-premium-header .nocry-home-link{align-self:flex-start!important;gap:13px!important}
+header.nocry-premium-header .nocry-brand-logo{
+ width:57px!important;height:57px!important;object-fit:cover!important;
+ border:1px solid #df924a!important;border-radius:7px!important;
+ box-shadow:0 0 0 2px #120908,0 0 14px #d35c2b8a!important;
+}
+header.nocry-premium-header .nocry-brand-lines strong{
+ font-family:Georgia,'Times New Roman',serif!important;font-size:clamp(23px,2.5vw,32px)!important;
+ letter-spacing:.04em!important;font-weight:700!important;
+ color:#ffdfad!important;text-shadow:0 2px 5px #000,0 0 10px #f2914745!important;
+}
+header.nocry-premium-header .nocry-brand-lines small{
+ font-family:Georgia,serif!important;letter-spacing:.21em!important;
+ font-size:10px!important;color:#d8ac7c!important;
+}
+header.nocry-premium-header nav{
+ position:relative;display:grid!important;grid-template-columns:repeat(7,minmax(0,1fr))!important;
+ width:100%!important;gap:8px!important;padding:6px 0 0!important;
+ border-top:1px solid #a66c384a;
+}
+header.nocry-premium-header nav button{
+ position:relative;isolation:isolate;overflow:hidden;
+ display:flex!important;justify-content:center!important;align-items:center!important;
+ min-height:46px!important;min-width:0!important;padding:9px 5px!important;
+ border:1px solid #a66a38bb!important;border-radius:3px!important;
+ background:linear-gradient(180deg,rgba(28,18,16,.9),rgba(8,8,10,.88))!important;
+ background-image:linear-gradient(180deg,rgba(28,18,16,.9),rgba(8,8,10,.88))!important;
+ box-shadow:inset 0 1px 0 #ffc27729,0 3px 7px #0008!important;
+ font-family:Georgia,'Times New Roman',serif!important;font-size:clamp(11px,1.05vw,15px)!important;
+ font-weight:700!important;letter-spacing:0!important;color:#f5dfc1!important;
+ text-shadow:0 1px 3px #000!important;white-space:nowrap!important;
+ transition:background .2s,box-shadow .2s,border-color .2s!important;
+}
+header.nocry-premium-header nav button:before,
+header.nocry-premium-header nav button:after{
+ content:"";position:absolute;top:3px;width:7px;height:7px;border-top:1px solid #e0a15c9e;
+ pointer-events:none;
+}
+header.nocry-premium-header nav button:before{left:3px;border-left:1px solid #e0a15c9e}
+header.nocry-premium-header nav button:after{right:3px;border-right:1px solid #e0a15c9e}
+header.nocry-premium-header nav button.active,
+header.nocry-premium-header nav button:hover,
+header.nocry-premium-header nav button:focus-visible{
+ background:linear-gradient(180deg,#9c411b,#451b12)!important;
+ background-image:linear-gradient(180deg,#9c411b,#451b12)!important;
+ border-color:#ffc178!important;box-shadow:inset 0 0 12px #ffab4b55,0 0 12px #e8782b66!important;
+ color:#fff2dc!important;
+}
+header.nocry-premium-header.is-scrolled{
+ background:rgba(9,8,10,.97)!important;background-image:none!important;
+ backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;
+ box-shadow:0 7px 22px #000c,0 1px 0 #d28c4370!important;
+ padding-top:7px!important;padding-bottom:8px!important;
+}
+header.nocry-premium-header.is-scrolled .nocry-brand-logo{width:42px!important;height:42px!important}
+header.nocry-premium-header.is-scrolled .nocry-brand-lines strong{font-size:clamp(18px,2.1vw,25px)!important}
+header.nocry-premium-header.is-scrolled nav button{min-height:41px!important}
+@media(max-width:900px){header.nocry-premium-header nav{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+@media(max-width:560px){
+ header.nocry-premium-header{padding:9px 12px!important;gap:8px!important}
+ header.nocry-premium-header nav{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+ header.nocry-premium-header nav button{min-height:38px!important;font-size:12px!important;padding:7px 4px!important}
+ header.nocry-premium-header .nocry-brand-lines strong{font-size:clamp(16px,4.2vw,23px)!important}
+ header.nocry-premium-header .nocry-brand-logo{width:45px!important;height:45px!important}
+}
+@media(prefers-reduced-motion:reduce){header.nocry-premium-header,header.nocry-premium-header nav button{transition:none!important}}
 </style></head><body><header class="nocry-premium-header"><a class="brand nocry-home-link" href="#inicio" aria-label="NOCRY — voltar para início"><img class="nocry-brand-logo" src="/assets/logo.jpg" alt="Escudo NOCRY"><div class="nocry-brand-lines"><strong>NOCRY / N0CRY / NOWCRY</strong><small>GUILD · PRISTON TALE</small></div></a><nav aria-label="Menu principal"><button class="active" data-tab="inicio">🔥 Início</button><button data-tab="membros">👥 Membros</button><button data-tab="ranking">🏆 Ranking</button><button data-tab="tags">🛡️ TAG's</button><button data-tab="galeria">📸 Galeria</button><button data-tab="inscricao">⚔️ Recrutamento</button><button data-tab="portal">🔐 Entrar / Painel</button></nav></header><main>
 <section id="inicio"><div class="hero"><div class="hero-content"><div class="crest-fire" aria-label="Emblema original NOCRY com círculo de fogo animado"><canvas id="fireCanvas" class="fire-canvas" aria-hidden="true"></canvas><div class="flame-halo"></div><div class="flame-ring"></div><div class="ember-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><img src="assets/logo.jpg" alt="Logo original CLAN NOCRY ZEPHIRA"></div><p class="world-title">ZEPHIRAWORLD • PRISTON TALE</p></div></div><div class="nocry-dual-cta" aria-label="Acesso ao recrutamento e painel do clã">
  <a class="nocry-recruit-mini" href="#inscricao" aria-label="Venha fazer parte do clã NOCRY: abrir recrutamento" onclick="event.preventDefault();document.querySelector('nav button[data-tab=&quot;inscricao&quot;]')?.click();window.scrollTo({top:0,behavior:'smooth'})">
@@ -749,6 +827,17 @@ searchCharacters();
  if(location.hash==='#portal'||new URLSearchParams(location.search).has('conta'))showTab('portal');
  refreshSession().then(refreshPublic).catch(e=>console.warn('Portal:',e.message));
  setInterval(refreshPublic,60000);
+})();
+</script>
+<script>
+/* Melhora a leitura do menu fixo quando a página é rolada. */
+(function(){
+ const header=document.querySelector('header.nocry-premium-header');
+ if(!header)return;
+ let scheduled=false;
+ function update(){header.classList.toggle('is-scrolled',window.scrollY>45);scheduled=false}
+ window.addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFrame(update)}},{passive:true});
+ update();
 })();
 </script>
 </body></html>
