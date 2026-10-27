@@ -330,6 +330,7 @@ def account_decision(u,uid):
             ch=db.session.get(Character,cl.character_id)
             if ch and ch.owner_id is None and not ch.role and Claim.query.filter(Claim.character_id==ch.id,Claim.id!=cl.id,Claim.status=='pending').count()==0:
                 db.session.delete(ch)
+        for cl in Claim.query.filter_by(user_id=account.id).all():db.session.delete(cl)
         db.session.delete(account)
     db.session.commit()
     return jsonify(ok=True)
@@ -338,7 +339,7 @@ def account_decision(u,uid):
 @admin
 def pending_claims(u):
     rows=db.session.query(Claim,Character,User).join(Character,Claim.character_id==Character.id).join(User,Claim.user_id==User.id).filter(Claim.status=='pending').all()
-    return jsonify(claims=[dict(id=cl.id,character=ch.name,tag=ch.tag,username=usr.username,created_at=cl.created_at.isoformat()) for cl,ch,usr in rows])
+    return jsonify(claims=[dict(id=cl.id,character=ch.name,tag=ch.tag,classe=ch.klass,nivel=ch.level,percent=ch.percent,username=usr.username,created_at=cl.created_at.isoformat()) for cl,ch,usr in rows])
 
 @portal.post('/api/admin/claims/<int:claim_id>/decision')
 @admin
