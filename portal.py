@@ -146,7 +146,7 @@ def register():
     key=char_name.casefold()
     existing=Character.query.filter_by(name_key=key).first()
     if existing and (existing.owner_id is not None or Claim.query.filter_by(character_id=existing.id,status='pending').first()):
-        return error('Este personagem já está vinculado ou aguardando aprovação de outra conta.',409)
+        return error('Esse personagem já foi cadastrado.',409)
     ip=request.remote_addr or 'unknown'
     bucket='signup:'+hashlib.sha256(ip.encode()).hexdigest()[:40]
     cutoff=utcnow()-timedelta(hours=1)
@@ -234,7 +234,7 @@ def add_char(u):
     key=name.casefold();existing=Character.query.filter_by(name_key=key).first()
     if existing:
         if existing.owner_id==u.id: return error('Você já possui este personagem. Use Atualizar.',409)
-        if existing.owner_id is not None:return error('Personagem já vinculado. Peça à liderança uma transferência.',409)
+        if existing.owner_id is not None or Claim.query.filter_by(character_id=existing.id,status='pending').first():return error('Esse personagem já foi cadastrado.',409)
         claim=Claim.query.filter_by(character_id=existing.id,user_id=u.id).first()
         if claim:
             if claim.status=='pending':return error('Solicitação já enviada; aguarde aprovação.',409)
@@ -275,6 +275,8 @@ def delete_char(u,cid):
     c=db.session.get(Character,cid)
     if not c or c.owner_id!=u.id:return error('Personagem não encontrado.',404)
     if c.role:return error('Personagem da liderança: solicite alteração ao administrador.',403)
+    # Ao vender/remover, apagar as reivindicações e o personagem do ranking.
+    Claim.query.filter_by(character_id=c.id).delete(synchronize_session=False)
     db.session.delete(c);db.session.commit();return jsonify(ok=True)
 
 @portal.get('/api/admin/integrations')
