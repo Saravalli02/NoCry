@@ -81,7 +81,11 @@ def error(msg,code=400): return jsonify(error=msg),code
 
 def current_user():
     uid=session.get('uid')
-    return db.session.get(User,uid) if isinstance(uid,int) else None
+    u=db.session.get(User,uid) if isinstance(uid,int) else None
+    if u and session.get('pwd_sig') != hashlib.sha256(u.password_hash.encode()).hexdigest():
+        session.clear()
+        return None
+    return u
 
 def auth(fn):
     @wraps(fn)
@@ -190,7 +194,7 @@ def login():
     if not u.verified: return error('Cadastro aguardando aprovação da liderança.',403)
     db.session.query(LoginAttempt).filter_by(key=bucket).delete()
     db.session.commit()
-    session.clear();session['uid']=u.id;session['csrf']=secrets.token_urlsafe(32);session.permanent=True
+    session.clear();session['uid']=u.id;session['csrf']=secrets.token_urlsafe(32);session['pwd_sig']=hashlib.sha256(u.password_hash.encode()).hexdigest();session.permanent=True
     return jsonify(ok=True,admin=u.is_admin)
 
 @portal.post('/api/auth/logout')
@@ -208,7 +212,14 @@ def characters():
     q=Character.query.filter(~((Character.owner_id.is_(None)) & (Character.role=='') & (Character.id.in_(pending_new))))
     q=q.filter(Character.klass!='Pendente')
     if tag:q=q.filter_by(tag=tag)
-    return jsonify(characters=[public_char(c) for c in q.order_by(Character.level.desc(),Character.name).all()])
+    visible=q.order_by(Character.level.desc(),Character.name).all()
+    # Unique approved player accounts, not character slots; exclude admin accounts.
+    linked_ids={ch.owner_id for ch in visible if ch.owner_id is not None}
+    approved=User.query.filter(User.id.in_(linked_ids),User.verified.is_(True),User.is_admin.is_(False)).count() if linked_ids else 0
+    return jsonify(characters=[public_char(c) for c in visible],
+                   stats=dict(characters=len(visible),players=approved,
+                              unlinked_characters=sum(ch.owner_id is None for ch in visible),
+                              tags={t:sum(ch.tag==t for ch in visible) for t in TAGS}))
 
 @portal.get('/api/me/characters')
 @auth
@@ -342,6 +353,18 @@ def admin_edit_user(u,uid):
     account.username=name
     db.session.commit()
     return jsonify(ok=True)
+
+@portal.post('/api/admin/users/<int:uid>/password')
+@admin
+def admin_reset_password(u,uid):
+    account=db.session.get(User,uid)
+    if not account or account.is_admin:return error('Conta não encontrada ou protegida.',404)
+    pw=str(body().get('password',''))
+    if not (10<=len(pw)<=128 and re.search('[A-Z]',pw) and re.search('[a-z]',pw) and re.search('[0-9]',pw) and re.search('[^A-Za-z0-9]',pw)):
+        return error('Senha deve ter 10 a 128 caracteres, maiúscula, minúscula, número e símbolo.')
+    account.password_hash=generate_password_hash(pw)
+    db.session.commit()
+    return jsonify(ok=True,message='Senha atualizada. Sessões anteriores serão encerradas.')
 
 @portal.delete('/api/admin/users/<int:uid>')
 @admin
