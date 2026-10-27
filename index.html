@@ -754,7 +754,7 @@ function eligibleBosses(){
  const seen=new Set();
  return bosses.filter(b=>{
   const name=normBoss(b.name),lv=Number(b.level),file=bossGifName(b.name);
-  if(!name||!Number.isFinite(lv)||lv<60||!file||!bossGifAvailable.get(file)||seen.has(name))return false;
+  if(!name||name==='valento'||!Number.isFinite(lv)||lv<60||!file||!bossGifAvailable.get(file)||seen.has(name))return false;
   seen.add(name);return true;
  });
 }
@@ -768,13 +768,11 @@ function render(){
  $('next').textContent=next?fmtTime(next._ms):'—';
  const shown=eligible.filter(b=>{const lv=Number(b.level),name=normBoss(b.name);return (filter==='all'||(filter==='80'&&lv>=80&&lv<90)||(filter==='70'&&lv>=70&&lv<80)||(filter==='60'&&lv>=60&&lv<70)||((name==='babel'||name==='valento')&&filter==='all'))&&(`${b.name||''} ${b.field||''}`.toLocaleLowerCase('pt-BR').includes(q))}).sort((a,b)=>bossPriority(a)-bossPriority(b)||Number(b.level)-Number(a.level)||String(a.name).localeCompare(String(b.name),'pt-BR'));
  $('bossCount').textContent=gifChecksReady?`${shown.length} de ${eligible.length} bosses com GIF`:'Verificando GIFs…';
- let lastGroup=-1;
- $('bossGroups').innerHTML=shown.map(b=>{
-  const rank=bossPriority(b),group=rank<2?0:rank===2?1:rank===3?2:3;
-  let heading='';if(group!==lastGroup){lastGroup=group;heading=`<h3 class="boss-group-title">${['👑 DESTAQUES • BABEL & VALENTO','⚔️ BOSSES NÍVEL 80–89','🔥 BOSSES NÍVEL 70–79','🛡️ OUTROS BOSSES COM GIF · NÍVEL 60+'][group]}</h3>`}
+ $('bossGroups').innerHTML=(shown.length?'<h3 class="boss-group-title">👑 BOSSES DESTAQUES · MELHORES BOSSES</h3>':'')+shown.map(b=>{
+  const rank=bossPriority(b);
   const gif=gifForBoss(b.name);
   const ms=b._valid?Math.max(0,b._seconds*1000-(now-b._at)):null,ready=ms!==null&&ms<=0;
-  return `${heading}<article class="boss-tile ${rank<2?'featured':''}">${rank<2?'<div class="boss-featured-ribbon">DESTAQUE</div>':''}<div class="boss-tile-top"><strong class="boss-tile-title">${safe(b.name||'Boss')}</strong><span class="boss-tile-level">Nv. ${safe(b.level??'?')}</span></div><div class="boss-art"><img src="${gif}" alt="${safe(b.name)}" loading="lazy"></div><div class="boss-tile-bottom"><p class="boss-place">📍 ${safe(b.field||'Mapa não informado')}</p><div class="boss-status-row"><span class="boss-status ${ready?'ready':''}" data-boss-state="${b._id}">${ms===null?'SEM HORÁRIO':ready?'TEMPO ESGOTADO':'PRÓXIMO SPAWN'}</span><span class="boss-timer" data-boss-timer="${b._id}">${ms===null?'—':fmtTime(ms)}</span></div></div></article>`
+  return `<article class="boss-tile ${rank<2?'featured':''}">${rank<2?'<div class="boss-featured-ribbon">DESTAQUE</div>':''}<div class="boss-tile-top"><strong class="boss-tile-title">${safe(b.name||'Boss')}</strong><span class="boss-tile-level">Nv. ${safe(b.level??'?')}</span></div><div class="boss-art"><img src="${gif}" alt="${safe(b.name)}" loading="lazy"></div><div class="boss-tile-bottom"><p class="boss-place">📍 ${safe(b.field||'Mapa não informado')}</p><div class="boss-status-row"><span class="boss-status ${ready?'ready':''}" data-boss-state="${b._id}">${ms===null?'SEM HORÁRIO':ready?'TEMPO ESGOTADO':'PRÓXIMO SPAWN'}</span><span class="boss-timer" data-boss-timer="${b._id}">${ms===null?'—':fmtTime(ms)}</span></div></div></article>`
  }).join('')||(gifChecksReady?'<div class="boss-empty">Nenhum boss com GIF disponível neste filtro. Verifique os arquivos em assets/bosses.</div>':'<div class="boss-empty">Verificando os GIFs enviados…</div>');
  updateBossTimers();
 }
