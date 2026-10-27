@@ -425,15 +425,33 @@ nav button.active,nav button:hover,nav button:focus-visible{background:rgba(124,
 .nocry-recruit-placement{justify-content:center!important;margin:18px auto 27px!important;width:100%;max-width:1200px}
 .nocry-recruit-mini{width:min(100%,550px)!important;min-height:178px!important}
 @media(min-width:900px){.nocry-recruit-mini{width:min(100%,550px)!important}}
+
+/* Dois painéis alinhados sob o banner e menu translúcido sobre a arte */
+header{background:linear-gradient(180deg,rgba(12,5,5,.56),rgba(12,5,5,.36)),url('/assets/banner.png') center 38%/cover!important;backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important;border-bottom:1px solid #d07a3766!important}
+nav button{background:rgba(10,5,5,.25)!important;border:1px solid #ae784c9e!important;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+nav button.active,nav button:hover,nav button:focus-visible{background:rgba(139,54,22,.52)!important}
+.nocry-dual-cta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;width:100%;margin:18px 0 29px;align-items:stretch}
+.nocry-dual-cta .nocry-recruit-mini{width:100%!important;max-width:none!important;min-height:222px!important;margin:0;box-sizing:border-box}
+.nocry-member-cta{background:radial-gradient(ellipse at 50% 85%,#b6532070,transparent 67%),linear-gradient(110deg,#050e17f0,#0c2232e0,#050d17f0),url('/assets/banner.png') center/cover!important;border-color:#bb7840!important}
+.nocry-member-title{font-family:Georgia,serif;font-size:clamp(20px,2.4vw,31px);color:#ffb55d;line-height:1.2;text-shadow:0 0 12px #d45522,0 2px 4px #000;letter-spacing:.6px;margin:15px 0 5px}
+.nocry-member-sub{font-family:Georgia,serif;font-size:clamp(11px,1.35vw,16px);line-height:1.45;letter-spacing:.7px;font-weight:bold;color:#ffe0ad;text-shadow:0 2px 4px #000}
+.nocry-member-cta .nocry-recruit-mini-button{background:linear-gradient(#a15b19,#40200a)}
+@media(max-width:700px){.nocry-dual-cta{grid-template-columns:1fr;gap:14px}.nocry-dual-cta .nocry-recruit-mini{min-height:185px!important}.nocry-member-title{font-size:23px}}
 </style></head><body><header class="nocry-premium-header"><a class="brand nocry-home-link" href="#inicio" aria-label="NOCRY — voltar para início"><img class="nocry-brand-logo" src="/assets/logo.jpg" alt="Escudo NOCRY"><div class="nocry-brand-lines"><strong>NOCRY / N0CRY / NOWCRY</strong><small>GUILD · PRISTON TALE</small></div></a><nav aria-label="Menu principal"><button class="active" data-tab="inicio">🔥 Início</button><button data-tab="membros">👥 Membros</button><button data-tab="ranking">🏆 Ranking</button><button data-tab="tags">🛡️ TAG's</button><button data-tab="galeria">📸 Galeria</button><button data-tab="inscricao">⚔️ Recrutamento</button><button data-tab="portal">🔐 Entrar / Painel</button></nav></header><main>
-<section id="inicio"><div class="hero"><div class="hero-content"><div class="crest-fire" aria-label="Emblema original NOCRY com círculo de fogo animado"><canvas id="fireCanvas" class="fire-canvas" aria-hidden="true"></canvas><div class="flame-halo"></div><div class="flame-ring"></div><div class="ember-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><img src="assets/logo.jpg" alt="Logo original CLAN NOCRY ZEPHIRA"></div><p class="world-title">ZEPHIRAWORLD • PRISTON TALE</p></div></div><div class="nocry-recruit-placement">
-<a class="nocry-recruit-mini" href="#inscricao" aria-label="Venha fazer parte do nosso clã. Clique para ir ao recrutamento." onclick="event.preventDefault();document.querySelector('nav button[data-tab=&quot;inscricao&quot;]')?.click();window.scrollTo({top:0,behavior:'smooth'})">
- <span class="nocry-recruit-mini-sparks" aria-hidden="true">✦ &nbsp; ✧ &nbsp; ✦</span>
- <span class="nocry-recruit-mini-kicker">VENHA FAZER PARTE DO</span>
- <strong class="nocry-recruit-mini-title">NOSSO CLÃ!</strong>
- <span class="nocry-recruit-mini-sub">✧ JUNTE-SE À NOSSA AVENTURA ✧</span>
- <span class="nocry-recruit-mini-button"><span>⚔</span> CLIQUE AQUI <span>❯</span></span>
-</a>
+<section id="inicio"><div class="hero"><div class="hero-content"><div class="crest-fire" aria-label="Emblema original NOCRY com círculo de fogo animado"><canvas id="fireCanvas" class="fire-canvas" aria-hidden="true"></canvas><div class="flame-halo"></div><div class="flame-ring"></div><div class="ember-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><img src="assets/logo.jpg" alt="Logo original CLAN NOCRY ZEPHIRA"></div><p class="world-title">ZEPHIRAWORLD • PRISTON TALE</p></div></div><div class="nocry-dual-cta" aria-label="Acesso ao recrutamento e painel do clã">
+ <a class="nocry-recruit-mini" href="#inscricao" aria-label="Venha fazer parte do clã NOCRY: abrir recrutamento" onclick="event.preventDefault();document.querySelector('nav button[data-tab=&quot;inscricao&quot;]')?.click();window.scrollTo({top:0,behavior:'smooth'})">
+  <span class="nocry-recruit-mini-sparks" aria-hidden="true">✦ &nbsp; ✧ &nbsp; ✦</span>
+  <span class="nocry-recruit-mini-kicker">VENHA FAZER PARTE DO</span>
+  <strong class="nocry-recruit-mini-title">NOSSO CLÃ!</strong>
+  <span class="nocry-recruit-mini-sub">✧ JUNTE-SE À NOSSA AVENTURA ✧</span>
+  <span class="nocry-recruit-mini-button"><span>⚔</span> CLIQUE AQUI <span>❯</span></span>
+ </a>
+ <a class="nocry-recruit-mini nocry-member-cta" href="#portal" aria-label="Já é membro do clã? Acesse o painel e atualize suas informações" onclick="event.preventDefault();document.querySelector('nav button[data-tab=&quot;portal&quot;]')?.click();window.scrollTo({top:0,behavior:'smooth'})">
+  <span class="nocry-recruit-mini-sparks" aria-hidden="true">✦ &nbsp; ✧ &nbsp; ✦</span>
+  <strong class="nocry-member-title">JÁ É MEMBRO DO CLÃ?</strong>
+  <span class="nocry-member-sub">✦ ACESSE O PAINEL E ATUALIZE ✦<br>SUAS INFORMAÇÕES</span>
+  <span class="nocry-recruit-mini-button"><span>🔒</span> ACESSAR PAINEL <span>❯</span></span>
+ </a>
 </div>
 <div class="nocry-showcase" aria-label="Destaques do clã NOCRY">
 <div><div class="nocry-showcase-head"><h2>👑 LÍDERES DO CLÃ</h2></div><div id="nocryLeaders" class="nocry-highlight-grid"></div></div>
