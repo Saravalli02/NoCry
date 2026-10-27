@@ -303,6 +303,17 @@ def delete_char(u,cid):
     if c.role:return error('Personagem da liderança: solicite alteração ao administrador.',403)
     db.session.delete(c);db.session.commit();return jsonify(ok=True)
 
+@portal.get('/api/admin/integrations')
+@admin
+def integration_status(u):
+    return jsonify(
+        recruitment_webhook=bool(os.environ.get('DISCORD_RECRUTAMENTO_WEBHOOK')),
+        approval_webhook=bool(os.environ.get('DISCORD_APROVACAO_WEBHOOK') or os.environ.get('DISCORD_RECRUTAMENTO_WEBHOOK')),
+        discord_oauth=all(os.environ.get(k) for k in ('DISCORD_CLIENT_ID','DISCORD_CLIENT_SECRET','DISCORD_REDIRECT_URI')),
+        discord_dm_bot=bool(os.environ.get('DISCORD_BOT_TOKEN')),
+        reminder_scheduler='Configure uma tarefa agendada no Render para executar run_reminders; não é executada pelo servidor web.'
+    )
+
 @portal.get('/api/admin/accounts')
 @admin
 def pending_accounts(u):
