@@ -103,5 +103,9 @@ def inscricao():
     recent.append(now)
     return jsonify(ok=True), 200
 
+# Portal persistente de personagens
+from portal import setup as setup_portal
+setup_portal(app)
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=int(os.environ.get('PORT','5000')))
