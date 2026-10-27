@@ -379,8 +379,44 @@ header.nocry-premium-header nav{grid-template-columns:repeat(7,minmax(0,1fr))!im
 .portal-claim{padding:12px;border-bottom:1px solid #693c25}.portal-claim button{margin:5px}
 @media(max-width:900px){header.nocry-premium-header nav{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
 @media(max-width:700px){.portal-layout{grid-template-columns:1fr}header.nocry-premium-header nav{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+/* Convite de recrutamento: estética dark fantasy do NOCRY, sem alterar o emblema original. */
+.nocry-recruit{position:relative;isolation:isolate;overflow:hidden;margin:24px 0 34px;border:1px solid #b85b29;border-radius:16px;text-align:center;background:linear-gradient(90deg,#0c0709ed 0%,#160b0bc9 48%,#0c0709ed 100%),url('/assets/banner.png') center 46%/cover;box-shadow:0 0 0 1px #ffae4320 inset,0 16px 42px #000b,0 0 28px #b62f132e}
+.nocry-recruit:before,.nocry-recruit:after{content:"";position:absolute;z-index:0;pointer-events:none;width:180px;height:180px;border:2px solid #cf753c55;transform:rotate(45deg);top:50%;margin-top:-90px;box-shadow:0 0 25px #e6511c30}
+.nocry-recruit:before{left:-133px}.nocry-recruit:after{right:-133px}
+.nocry-recruit-glow{position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 50% 15%,#e75d1936,transparent 55%),linear-gradient(90deg,transparent 8%,#ef823c1c 50%,transparent 92%);animation:nocryRecruitGlow 4s ease-in-out infinite alternate}
+.nocry-recruit-inner{position:relative;z-index:1;padding:31px 18px 32px}
+.nocry-recruit-overline{color:#e3aa77;font-size:11px;font-weight:800;letter-spacing:3px;text-shadow:0 1px 8px #000}
+.nocry-recruit-overline span{color:#ff8b35;padding:0 12px}
+.nocry-recruit-sigil{margin:7px auto 1px;font-size:38px;line-height:1.2;color:#ffac4c;text-shadow:0 0 12px #e85016,0 0 30px #f4481680;animation:nocrySigil 3s ease-in-out infinite alternate}
+.nocry-recruit h2{display:flex;flex-direction:column;gap:0;margin:6px 0 8px;line-height:1.13;text-shadow:0 3px 12px #000}
+.nocry-recruit h2 span{font-size:clamp(18px,2.7vw,30px);letter-spacing:2px;color:#f5e1c5}
+.nocry-recruit h2 strong{font-size:clamp(32px,5.1vw,58px);letter-spacing:2px;font-weight:900;color:#ffc36c;filter:drop-shadow(0 2px 6px #c73c14)}
+.nocry-recruit-rule{height:18px;max-width:460px;margin:5px auto 12px;display:flex;align-items:center;gap:12px;color:#ef913e}
+.nocry-recruit-rule:before,.nocry-recruit-rule:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,#d36b31)}
+.nocry-recruit-rule:after{transform:rotate(180deg)}
+.nocry-recruit p{font-size:clamp(14px,1.6vw,18px);line-height:1.65;color:#e6d5c6;margin:0 auto 22px;max-width:740px}
+.nocry-recruit p b{color:#ffca83}
+.nocry-recruit-cta{display:inline-flex;align-items:center;justify-content:center;gap:13px;max-width:100%;padding:17px 25px;border:1px solid #ffce78;border-radius:7px;background:linear-gradient(180deg,#ec8a38 0%,#bd4a18 46%,#7d260d 100%);box-shadow:0 4px 0 #4b1c0c,0 0 22px #ec641c70,0 0 0 3px #f7b45123 inset;color:#fff8e7;font-size:clamp(12px,1.5vw,17px);font-weight:900;letter-spacing:.7px;text-shadow:0 2px 3px #5a1708;cursor:pointer;transition:transform .2s,filter .2s,box-shadow .2s}
+.nocry-recruit-cta:hover,.nocry-recruit-cta:focus-visible{transform:translateY(-3px);filter:brightness(1.15);box-shadow:0 6px 0 #4b1c0c,0 0 35px #ff7d29ad,0 0 0 3px #f7b45123 inset}
+.nocry-recruit-footer{display:flex;justify-content:center;flex-wrap:wrap;gap:clamp(16px,4vw,54px);margin-top:24px;font-size:11px;font-weight:800;letter-spacing:2px;color:#ba8663}
+@keyframes nocryRecruitGlow{from{opacity:.55}to{opacity:1}}@keyframes nocrySigil{from{filter:brightness(.85)}to{filter:brightness(1.4)}}
+@media(max-width:540px){.nocry-recruit-inner{padding:26px 12px}.nocry-recruit-overline{font-size:9px;letter-spacing:1.4px}.nocry-recruit-cta{padding:15px 11px;gap:7px;line-height:1.4}.nocry-recruit-footer{font-size:9px;gap:14px}}
+@media(prefers-reduced-motion:reduce){.nocry-recruit-glow,.nocry-recruit-sigil{animation:none}}
 </style></head><body><header class="nocry-premium-header"><a class="brand nocry-home-link" href="#inicio" aria-label="NOCRY — voltar para início"><img class="nocry-brand-logo" src="/assets/logo.jpg" alt="Escudo NOCRY"><div class="nocry-brand-lines"><strong>NOCRY / N0CRY / NOWCRY</strong><small>GUILD · PRISTON TALE</small></div></a><nav aria-label="Menu principal"><button class="active" data-tab="inicio">🔥 Início</button><button data-tab="membros">👥 Membros</button><button data-tab="ranking">🏆 Ranking</button><button data-tab="tags">🛡️ TAG's</button><button data-tab="galeria">📸 Galeria</button><button data-tab="inscricao">⚔️ Recrutamento</button><button data-tab="portal">🔐 Entrar / Painel</button></nav></header><main>
-<section id="inicio"><div class="hero"><div class="hero-content"><div class="crest-fire" aria-label="Emblema original NOCRY com círculo de fogo animado"><canvas id="fireCanvas" class="fire-canvas" aria-hidden="true"></canvas><div class="flame-halo"></div><div class="flame-ring"></div><div class="ember-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><img src="assets/logo.jpg" alt="Logo original CLAN NOCRY ZEPHIRA"></div><p class="world-title">ZEPHIRAWORLD • PRISTON TALE</p></div></div><div class="panel" style="text-align:center;margin:22px 0 30px;padding:30px 18px;border-color:#ce742d;background:linear-gradient(135deg,rgba(40,16,9,.94),rgba(14,10,10,.96))"><h2 style="color:#ffcc83;margin:0 0 12px">⚔️ VENHA FAZER PARTE DO NOSSO CLÃ!</h2><p style="font-size:clamp(16px,2vw,21px);margin:0 0 20px">Clique aqui e junte-se à nossa aventura!</p><button class="btn" type="button" onclick="document.querySelector('nav button[data-tab=&quot;inscricao&quot;]').click();window.scrollTo({top:0,behavior:'smooth'})">🔥 QUERO ENTRAR PARA O NOCRY</button></div><div class="nocry-showcase" aria-label="Destaques do clã NOCRY">
+<section id="inicio"><div class="hero"><div class="hero-content"><div class="crest-fire" aria-label="Emblema original NOCRY com círculo de fogo animado"><canvas id="fireCanvas" class="fire-canvas" aria-hidden="true"></canvas><div class="flame-halo"></div><div class="flame-ring"></div><div class="ember-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><img src="assets/logo.jpg" alt="Logo original CLAN NOCRY ZEPHIRA"></div><p class="world-title">ZEPHIRAWORLD • PRISTON TALE</p></div></div><section class="nocry-recruit" aria-label="Convite para recrutamento NOCRY">
+ <div class="nocry-recruit-glow" aria-hidden="true"></div>
+ <div class="nocry-recruit-inner">
+  <div class="nocry-recruit-overline"><span>✦</span> ZEPHIRAWORLD · PRISTON TALE <span>✦</span></div>
+  <div class="nocry-recruit-sigil" aria-hidden="true">⚔</div>
+  <h2><span>SEU DESTINO COMEÇA</span><strong>NO CLÃ NOCRY</strong></h2>
+  <div class="nocry-recruit-rule"><span>◆</span></div>
+  <p>Grandes aventuras não são escritas sozinhas.<br><b>Venha fazer parte do nosso clã</b> e lute ao lado dos nossos guerreiros!</p>
+  <button class="nocry-recruit-cta" type="button" onclick="document.querySelector('nav button[data-tab=&quot;inscricao&quot;]')?.click();window.scrollTo({top:0,behavior:'smooth'})"><span>⚔</span> CLIQUE AQUI E JUNTE-SE À NOSSA AVENTURA <span>❯</span></button>
+  <div class="nocry-recruit-footer"><span>✦ UNIÃO</span><span>✦ HONRA</span><span>✦ AVENTURA</span></div>
+ </div>
+</section>
+<div class="nocry-showcase" aria-label="Destaques do clã NOCRY">
 <div><div class="nocry-showcase-head"><h2>👑 LÍDERES DO CLÃ</h2></div><div id="nocryLeaders" class="nocry-highlight-grid"></div></div>
 <div><div class="nocry-showcase-head"><h2>⚔️ PT TOP • DESTAQUES NÍVEL 83</h2></div><div id="nocryTop" class="nocry-highlight-grid top"></div></div>
 </div>
