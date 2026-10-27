@@ -634,6 +634,24 @@ header.nocry-premium-header.is-scrolled{
   padding:8px 12px!important;
  }
 }
+
+/* Radar compacto: bosses lado a lado em fileiras, com títulos de grupo ocupando a largura inteira */
+#bossGroups.boss-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:13px!important;align-items:stretch}
+#bossGroups .boss-group-title{grid-column:1/-1!important;margin:15px 0 1px!important;font-size:clamp(15px,1.8vw,20px)!important}
+#bossGroups .boss-tile{min-width:0!important;min-height:228px!important;border-radius:11px!important}
+#bossGroups .boss-tile-top{padding:10px 10px 0!important;gap:4px!important;flex-wrap:wrap}
+#bossGroups .boss-tile-title{font-size:clamp(12px,1.15vw,15px)!important;line-height:1.2!important}
+#bossGroups .boss-tile-level{font-size:10px!important;padding:3px 5px!important}
+#bossGroups .boss-art{height:105px!important}
+#bossGroups .boss-tile-bottom{padding:0 9px 10px!important}
+#bossGroups .boss-place{font-size:10px!important;margin-bottom:7px!important}
+#bossGroups .boss-status-row{padding-top:7px!important;gap:4px!important;flex-wrap:wrap}
+#bossGroups .boss-status{font-size:9px!important;padding:4px 5px!important}
+#bossGroups .boss-timer{font-size:13px!important}
+#bossGroups .boss-featured-ribbon{font-size:8px!important;top:11px!important}
+@media(max-width:1050px){#bossGroups.boss-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+@media(max-width:760px){#bossGroups.boss-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:540px){#bossGroups.boss-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}#bossGroups .boss-art{height:90px!important}#bossGroups .boss-tile{min-height:220px!important}}
 </style></head><body><header class="nocry-premium-header"><nav aria-label="Menu principal"><button class="active" data-tab="inicio">🔥 Início</button><button data-tab="membros">👥 Membros</button><button data-tab="ranking">🏆 Ranking</button><button data-tab="tags">🛡️ TAG's</button><button data-tab="galeria">📸 Galeria</button><button data-tab="inscricao">⚔️ Recrutamento</button><button data-tab="portal">🔐 Entrar / Painel</button></nav></header><main>
 <section id="inicio"><div class="hero"><div class="hero-content"><div class="crest-fire" aria-label="Emblema original NOCRY com círculo de fogo animado"><canvas id="fireCanvas" class="fire-canvas" aria-hidden="true"></canvas><div class="flame-halo"></div><div class="flame-ring"></div><div class="ember-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><img src="assets/logo.jpg" alt="Logo original CLAN NOCRY ZEPHIRA"></div><p class="world-title">ZEPHIRAWORLD • PRISTON TALE</p></div></div><div class="nocry-dual-cta" aria-label="Acesso ao recrutamento e painel do clã">
  <a class="nocry-recruit-mini" href="#inscricao" aria-label="Venha fazer parte do clã NOCRY: abrir recrutamento" onclick="event.preventDefault();document.querySelector('nav button[data-tab=&quot;inscricao&quot;]')?.click();window.scrollTo({top:0,behavior:'smooth'})">
