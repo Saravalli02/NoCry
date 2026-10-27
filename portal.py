@@ -77,6 +77,39 @@ def setup(app):
                     db.session.add(Character(name=row['nome'],name_key=key,klass=row['classe'],level=int(row['nivel']),percent=0,tag=row.get('tag','NOCRY'),role=row.get('cargo','')))
             db.session.commit()
 
+def notify_discord_approval(user, character, claim):
+    """Notifica a liderança pelo webhook existente; falha externa não cancela o pedido salvo."""
+    webhook=os.environ.get('DISCORD_APROVACAO_WEBHOOK','').strip() or os.environ.get('DISCORD_RECRUTAMENTO_WEBHOOK','').strip()
+    if not webhook.startswith(('https://discord.com/api/webhooks/','https://discordapp.com/api/webhooks/')):
+        current_app.logger.warning('Webhook Discord não configurado para aprovações')
+        return
+    payload={
+        'username':'Painel NOCRY · Aprovações',
+        'allowed_mentions':{'parse':[]},
+        'embeds':[{
+            'title':'🛡️ APROVAÇÃO PENDENTE · PERSONAGEM',
+            'description':'Um jogador solicitou vinculação de personagem. Entre no painel administrativo para conferir e decidir.',
+            'color':16753920,
+            'fields':[
+                {'name':'👤 Conta','value':user.username,'inline':True},
+                {'name':'🎮 Personagem','value':character.name,'inline':True},
+                {'name':'🏰 TAG','value':character.tag,'inline':True},
+                {'name':'⚔️ Classe','value':character.klass,'inline':True},
+                {'name':'⭐ Nível','value':str(character.level),'inline':True},
+                {'name':'📈 XP','value':f'{character.percent:.2f}%','inline':True},
+                {'name':'📋 Solicitação','value':f'#{claim.id} · Aguardando aprovação','inline':False},
+            ],
+            'footer':{'text':'NOCRY • Painel administrativo | Não aprove solicitações pelo Discord'}
+        }]
+    }
+    try:
+        req=Request(webhook,data=json.dumps(payload,ensure_ascii=False).encode('utf-8'),
+            headers={'Content-Type':'application/json','User-Agent':'NOCRY-Portal/1.0'},method='POST')
+        with urlopen(req,timeout=8) as response:
+            if response.status not in (200,204):raise ValueError('Discord não confirmou notificação')
+    except Exception:
+        current_app.logger.exception('Falha ao notificar aprovação de personagem no Discord')
+
 def error(msg,code=400): return jsonify(error=msg),code
 
 def current_user():
@@ -250,12 +283,22 @@ def add_char(u):
             claim.status='pending'
         else: db.session.add(Claim(character_id=existing.id,user_id=u.id))
         db.session.commit()
+        pending=Claim.query.filter_by(character_id=existing.id,user_id=u.id,status='pending').first()
+        if pending:notify_discord_approval(u,existing,pending)
         return jsonify(ok=True,pending=True,message='Personagem existente. Vinculação enviada à liderança.'),202
-    c=Character(name=name,name_key=key,klass=klass,tag=tag,level=level,percent=percent,owner_id=u.id)
+    # Personagens novos também exigem aprovação; nunca atribuir posse automaticamente.
+    c=Character(name=name,name_key=key,klass=klass,tag=tag,level=level,percent=percent,owner_id=None)
     db.session.add(c)
-    try: db.session.commit()
-    except IntegrityError:db.session.rollback();return error('Este nome já foi cadastrado.',409)
-    return jsonify(ok=True,character=public_char(c)),201
+    try:
+        db.session.flush()
+        cl=Claim(character_id=c.id,user_id=u.id,status='pending')
+        db.session.add(cl)
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        return error('Este nome já foi cadastrado.',409)
+    notify_discord_approval(u,c,cl)
+    return jsonify(ok=True,pending=True,message='Personagem enviado para aprovação da liderança.'),202
 
 @portal.put('/api/me/characters/<int:cid>')
 @auth
