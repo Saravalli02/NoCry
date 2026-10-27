@@ -137,6 +137,8 @@ def register():
     d=body();name=str(d.get('username','')).strip();pw=str(d.get('password',''))
     if not re.fullmatch(r'[A-Za-z0-9_.-]{3,40}',name):return error('Login: 3 a 40 caracteres, letras, números, _, . ou -.')
     if len(pw)<10 or len(pw)>128:return error('Senha deve ter entre 10 e 128 caracteres.')
+    if not (re.search(r'[A-Z]',pw) and re.search(r'[a-z]',pw) and re.search(r'[0-9]',pw) and re.search(r'[^A-Za-z0-9]',pw)):
+        return error('A senha precisa ter letra maiúscula, minúscula, número e caractere especial.')
     if pw!=str(d.get('confirm','')):return error('As senhas não conferem.')
     ip=request.remote_addr or 'unknown'
     bucket='signup:'+hashlib.sha256(ip.encode()).hexdigest()[:40]
