@@ -403,19 +403,30 @@ header.nocry-premium-header nav{grid-template-columns:repeat(7,minmax(0,1fr))!im
 @keyframes nocryRecruitGlow{from{opacity:.55}to{opacity:1}}@keyframes nocrySigil{from{filter:brightness(.85)}to{filter:brightness(1.4)}}
 @media(max-width:540px){.nocry-recruit-inner{padding:26px 12px}.nocry-recruit-overline{font-size:9px;letter-spacing:1.4px}.nocry-recruit-cta{padding:15px 11px;gap:7px;line-height:1.4}.nocry-recruit-footer{font-size:9px;gap:14px}}
 @media(prefers-reduced-motion:reduce){.nocry-recruit-glow,.nocry-recruit-sigil{animation:none}}
+
+/* Card compacto de recrutamento, ao lado do conteúdo inicial */
+.nocry-recruit-placement{display:flex;justify-content:flex-end;margin:-5px 0 25px}
+.nocry-recruit-mini{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:min(100%,410px);min-height:188px;padding:16px 18px 19px;text-align:center;text-decoration:none;color:#fce4bd;border:2px solid #a84b20;border-radius:9px;background:radial-gradient(ellipse at 50% 85%,#b9392080,transparent 68%),linear-gradient(110deg,#090606e8,#26100de8,#090606e8),url('/assets/banner.png') center/cover;box-shadow:0 0 0 2px #f2a14b35 inset,0 10px 25px #000a,0 0 17px #db4d2345;transition:transform .2s,box-shadow .2s}
+.nocry-recruit-mini:before,.nocry-recruit-mini:after{content:"⚔";position:absolute;top:45%;font-size:44px;color:#d66a31a6;text-shadow:0 0 14px #fa631b;pointer-events:none}.nocry-recruit-mini:before{left:8px;transform:rotate(-26deg)}.nocry-recruit-mini:after{right:8px;transform:scaleX(-1) rotate(-26deg)}
+.nocry-recruit-mini-sparks{position:absolute;top:5px;color:#ffab4c;font-size:14px;letter-spacing:18px;animation:nocryMiniFire 2s ease-in-out infinite alternate}
+.nocry-recruit-mini-kicker{font-family:Georgia,serif;font-size:12px;font-weight:700;letter-spacing:2px;text-shadow:0 2px 5px #000;margin-top:13px}
+.nocry-recruit-mini-title{font-family:Georgia,serif;font-size:clamp(28px,3.3vw,39px);line-height:1.1;letter-spacing:1px;color:#ffcb75;text-shadow:0 2px 0 #a63d14,0 0 9px #fc591c,0 0 22px #ff541877}
+.nocry-recruit-mini-sub{font-family:Georgia,serif;font-size:10px;letter-spacing:1.2px;color:#f5d7ac}
+.nocry-recruit-mini-button{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:10px;padding:9px 20px;min-width:210px;border:1px solid #fcb56c;border-radius:4px;background:linear-gradient(#a72e15,#4b0808);box-shadow:0 0 12px #ff681b80,0 0 0 2px #ffb84a27 inset;color:#ffe2a5;font-family:Georgia,serif;font-size:16px;font-weight:bold;letter-spacing:1.5px;animation:nocryMiniButton 2.4s ease-in-out infinite alternate}
+.nocry-recruit-mini:hover,.nocry-recruit-mini:focus-visible{transform:translateY(-3px);box-shadow:0 0 0 2px #f2a14b55 inset,0 13px 27px #000a,0 0 28px #ff6e2b9c}
+@keyframes nocryMiniFire{from{opacity:.5;filter:brightness(.8)}to{opacity:1;filter:brightness(1.5)}}@keyframes nocryMiniButton{from{box-shadow:0 0 7px #ff681b60}to{box-shadow:0 0 21px #ff8d2ec0}}
+@media(max-width:650px){.nocry-recruit-placement{justify-content:center}.nocry-recruit-mini{width:100%}}
+@media(prefers-reduced-motion:reduce){.nocry-recruit-mini-sparks,.nocry-recruit-mini-button{animation:none}}
 </style></head><body><header class="nocry-premium-header"><a class="brand nocry-home-link" href="#inicio" aria-label="NOCRY — voltar para início"><img class="nocry-brand-logo" src="/assets/logo.jpg" alt="Escudo NOCRY"><div class="nocry-brand-lines"><strong>NOCRY / N0CRY / NOWCRY</strong><small>GUILD · PRISTON TALE</small></div></a><nav aria-label="Menu principal"><button class="active" data-tab="inicio">🔥 Início</button><button data-tab="membros">👥 Membros</button><button data-tab="ranking">🏆 Ranking</button><button data-tab="tags">🛡️ TAG's</button><button data-tab="galeria">📸 Galeria</button><button data-tab="inscricao">⚔️ Recrutamento</button><button data-tab="portal">🔐 Entrar / Painel</button></nav></header><main>
-<section id="inicio"><div class="hero"><div class="hero-content"><div class="crest-fire" aria-label="Emblema original NOCRY com círculo de fogo animado"><canvas id="fireCanvas" class="fire-canvas" aria-hidden="true"></canvas><div class="flame-halo"></div><div class="flame-ring"></div><div class="ember-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><img src="assets/logo.jpg" alt="Logo original CLAN NOCRY ZEPHIRA"></div><p class="world-title">ZEPHIRAWORLD • PRISTON TALE</p></div></div><section class="nocry-recruit" aria-label="Convite para recrutamento NOCRY">
- <div class="nocry-recruit-glow" aria-hidden="true"></div>
- <div class="nocry-recruit-inner">
-  <div class="nocry-recruit-overline"><span>✦</span> ZEPHIRAWORLD · PRISTON TALE <span>✦</span></div>
-  <div class="nocry-recruit-sigil" aria-hidden="true">⚔</div>
-  <h2><span>SEU DESTINO COMEÇA</span><strong>NO CLÃ NOCRY</strong></h2>
-  <div class="nocry-recruit-rule"><span>◆</span></div>
-  <p>Grandes aventuras não são escritas sozinhas.<br><b>Venha fazer parte do nosso clã</b> e lute ao lado dos nossos guerreiros!</p>
-  <button class="nocry-recruit-cta" type="button" onclick="document.querySelector('nav button[data-tab=&quot;inscricao&quot;]')?.click();window.scrollTo({top:0,behavior:'smooth'})"><span>⚔</span> CLIQUE AQUI E JUNTE-SE À NOSSA AVENTURA <span>❯</span></button>
-  <div class="nocry-recruit-footer"><span>✦ UNIÃO</span><span>✦ HONRA</span><span>✦ AVENTURA</span></div>
- </div>
-</section>
+<section id="inicio"><div class="hero"><div class="hero-content"><div class="crest-fire" aria-label="Emblema original NOCRY com círculo de fogo animado"><canvas id="fireCanvas" class="fire-canvas" aria-hidden="true"></canvas><div class="flame-halo"></div><div class="flame-ring"></div><div class="ember-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><img src="assets/logo.jpg" alt="Logo original CLAN NOCRY ZEPHIRA"></div><p class="world-title">ZEPHIRAWORLD • PRISTON TALE</p></div></div><div class="nocry-recruit-placement">
+<a class="nocry-recruit-mini" href="#inscricao" aria-label="Venha fazer parte do nosso clã. Clique para ir ao recrutamento." onclick="event.preventDefault();document.querySelector('nav button[data-tab=&quot;inscricao&quot;]')?.click();window.scrollTo({top:0,behavior:'smooth'})">
+ <span class="nocry-recruit-mini-sparks" aria-hidden="true">✦ &nbsp; ✧ &nbsp; ✦</span>
+ <span class="nocry-recruit-mini-kicker">VENHA FAZER PARTE DO</span>
+ <strong class="nocry-recruit-mini-title">NOSSO CLÃ!</strong>
+ <span class="nocry-recruit-mini-sub">✧ JUNTE-SE À NOSSA AVENTURA ✧</span>
+ <span class="nocry-recruit-mini-button"><span>⚔</span> CLIQUE AQUI <span>❯</span></span>
+</a>
+</div>
 <div class="nocry-showcase" aria-label="Destaques do clã NOCRY">
 <div><div class="nocry-showcase-head"><h2>👑 LÍDERES DO CLÃ</h2></div><div id="nocryLeaders" class="nocry-highlight-grid"></div></div>
 <div><div class="nocry-showcase-head"><h2>⚔️ PT TOP • DESTAQUES NÍVEL 83</h2></div><div id="nocryTop" class="nocry-highlight-grid top"></div></div>
