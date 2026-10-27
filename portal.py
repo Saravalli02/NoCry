@@ -138,8 +138,6 @@ def register():
     if not re.fullmatch(r'[A-Za-z0-9_.-]{3,40}',name):return error('Login: 3 a 40 caracteres, letras, números, _, . ou -.')
     if len(pw)<10 or len(pw)>128:return error('Senha deve ter entre 10 e 128 caracteres.')
     if pw!=str(d.get('confirm','')):return error('As senhas não conferem.')
-    try:name_char,klass,tag,level,percent=validate_char(d)
-    except ValueError as e:return error(str(e))
     ip=request.remote_addr or 'unknown'
     bucket='signup:'+hashlib.sha256(ip.encode()).hexdigest()[:40]
     cutoff=utcnow()-timedelta(hours=1)
@@ -147,8 +145,6 @@ def register():
     if LoginAttempt.query.filter_by(key=bucket).count()>=5:
         db.session.commit();return error('Muitos cadastros. Aguarde uma hora.',429)
     if User.query.filter(func.lower(User.username)==name.lower()).first():return error('Login já utilizado.',409)
-    key=name_char.casefold();existing=Character.query.filter_by(name_key=key).first()
-    if existing and existing.owner_id is not None:return error('Personagem já vinculado a outra conta.',409)
     # Compatibilidade com o banco atual: a coluna email é obrigatória, mas não coletamos nem enviamos e-mails.
     # Valor interno exclusivo não é endereço utilizável e não autoriza login por e-mail.
     internal_email='nocry-'+secrets.token_hex(16)+'@invalid.example'
@@ -156,22 +152,13 @@ def register():
     db.session.add(u)
     try:
         db.session.flush()
-        ch=existing
-        if ch is None:
-            ch=Character(name=name_char,name_key=key,klass=klass,tag=tag,level=level,percent=percent,owner_id=None)
-            db.session.add(ch);db.session.flush()
-        # Reivindicação existente preserva os dados oficiais do personagem até aprovação.
-        if Claim.query.filter_by(character_id=ch.id,user_id=u.id).first():
-            raise ValueError('Solicitação já existente.')
-        cl=Claim(character_id=ch.id,user_id=u.id,status='pending')
-        db.session.add(cl)
         db.session.add(LoginAttempt(key=bucket))
         db.session.commit()
     except (IntegrityError,ValueError):
         db.session.rollback()
         return error('Não foi possível concluir o cadastro. Confira o login e o personagem.',409)
 
-    return jsonify(ok=True,message='Cadastro enviado! Aguarde a aprovação da liderança para acessar o painel.'),202
+    return jsonify(ok=True,message='Conta criada! Aguarde a aprovação da liderança. Depois entre e cadastre seus personagens.'),202
 
 @portal.post('/api/auth/login')
 def login():
