@@ -316,6 +316,39 @@ def account_decision(u,uid):
     db.session.commit()
     return jsonify(ok=True)
 
+@portal.get('/api/admin/users')
+@admin
+def admin_users(u):
+    users=User.query.filter_by(is_admin=False).order_by(User.username).all()
+    return jsonify(users=[dict(id=x.id,username=x.username,verified=x.verified,
+        characters=[dict(id=ch.id,nome=ch.name,tag=ch.tag) for ch in Character.query.filter_by(owner_id=x.id).order_by(Character.name).all()])
+        for x in users])
+
+@portal.patch('/api/admin/users/<int:uid>')
+@admin
+def admin_edit_user(u,uid):
+    account=db.session.get(User,uid)
+    if not account or account.is_admin:return error('Conta não encontrada ou protegida.',404)
+    name=str(body().get('username','')).strip()
+    if not re.fullmatch(r'[A-Za-z0-9_.-]{3,40}',name):return error('Login inválido (3 a 40 caracteres).')
+    duplicate=User.query.filter(func.lower(User.username)==name.lower(),User.id!=uid).first()
+    if duplicate:return error('Login já utilizado.',409)
+    account.username=name
+    db.session.commit()
+    return jsonify(ok=True)
+
+@portal.delete('/api/admin/users/<int:uid>')
+@admin
+def admin_delete_user(u,uid):
+    account=db.session.get(User,uid)
+    if not account or account.is_admin:return error('Conta não encontrada ou protegida.',404)
+    # Preserve existing characters and rankings; only detach account ownership.
+    for ch in Character.query.filter_by(owner_id=uid).all():ch.owner_id=None
+    Claim.query.filter_by(user_id=uid).delete(synchronize_session=False)
+    db.session.delete(account)
+    db.session.commit()
+    return jsonify(ok=True)
+
 @portal.get('/api/admin/claims')
 @admin
 def pending_claims(u):
