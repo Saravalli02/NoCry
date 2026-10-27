@@ -257,6 +257,46 @@ header .brand img.nocry-brand-logo{display:block;width:62px;height:62px;object-f
 @media(max-width:900px){
  #nocryLeaders.nocry-highlight-grid{grid-template-columns:1fr!important;max-width:620px!important;margin:0 auto!important}
 }
+
+/* Cards de líderes: APENAS as imagens, sem moldura/card HTML intermediário. */
+#nocryLeaders.nocry-highlight-grid {
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:16px!important;
+  align-items:start!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:4px!important;
+  overflow:visible!important;
+}
+#nocryLeaders > img.nocry-leader-image {
+  display:block!important;
+  position:static!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:auto!important;
+  max-width:100%!important;
+  min-width:0!important;
+  aspect-ratio:960 / 500!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  transform:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:2px solid #ffab49!important;
+  border-radius:11px!important;
+  background:transparent!important;
+  box-shadow:0 0 9px #ff8a32cf,0 0 20px #ff6b2870,0 0 3px #ffd38b!important;
+  filter:none!important;
+  transition:box-shadow .2s ease!important;
+}
+#nocryLeaders > img.nocry-leader-image:hover {
+  box-shadow:0 0 15px #ffb14ee6,0 0 30px #ff762b91!important;
+}
+@media(max-width:700px){
+  #nocryLeaders.nocry-highlight-grid{grid-template-columns:1fr!important;max-width:650px!important;margin:0 auto!important;gap:16px!important}
+}
 </style></head><body><header><div class="brand"><img class="nocry-brand-logo" src="/assets/logo.jpg" alt="Logo NOCRY"><div class="nocry-brand-lines"><strong>NOCRY / N0CRY / NOWCRY</strong></div></div><nav><button class="active" data-tab="inicio">🔥 Início</button><button data-tab="membros">👥 Membros</button><button data-tab="ranking">🏆 Ranking</button><button data-tab="pesquisa">🔎 Personagem</button><button data-tab="galeria">📸 Galeria</button><button data-tab="inscricao">⚔️ Inscrever-se</button></nav></header><main>
 <section id="inicio"><div class="hero"><div class="hero-content"><div class="crest-fire" aria-label="Emblema original NOCRY com círculo de fogo animado"><canvas id="fireCanvas" class="fire-canvas" aria-hidden="true"></canvas><div class="flame-halo"></div><div class="flame-ring"></div><div class="ember-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><img src="assets/logo.jpg" alt="Logo original CLAN NOCRY ZEPHIRA"></div><p class="world-title">ZEPHIRAWORLD • PRISTON TALE</p></div></div><div class="kpis"><div class="kpi"><small>Bosses monitorados</small><strong id="total">—</strong></div><div class="kpi"><small>Bosses nível 70+</small><strong id="elite">—</strong></div><div class="kpi"><small>Próximo nascimento</small><strong id="next">—</strong></div><div class="kpi"><small>Fonte de dados</small><strong id="apiStatus" style="font-size:17px">Conectando...</strong></div></div><div class="nocry-showcase" aria-label="Destaques do clã NOCRY">
 <div><div class="nocry-showcase-head"><h2>👑 LÍDERES DO CLÃ</h2></div><div id="nocryLeaders" class="nocry-highlight-grid"></div></div>
@@ -376,7 +416,7 @@ document.getElementById('nocryLeaders').innerHTML=[
   ['snoopy','Snoopy • Líder • Atalanta'],
   ['kundo','KUNDO • Sub-líder • Pike'],
   ['zsilentedge','zSilentEdge • Sub-líder • Cavaleiro']
-].map(([file,label])=>`<div class="nocry-leader-art"><img src="/assets/leaders/${file}.webp" alt="${label}" loading="lazy"></div>`).join('');
+].map(([file,label])=>`<img class="nocry-leader-image" src="/assets/leaders/${file}.webp" alt="${label}" loading="lazy" decoding="async">`).join('');
 document.getElementById('nocryTop').innerHTML=nocryMembers
   .filter(m=>Number(m.nivel)===Math.max(...nocryMembers.map(x=>Number(x.nivel))))
   .sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'))
