@@ -141,7 +141,7 @@ def register():
         return error('A senha precisa ter letra maiúscula, minúscula, número e caractere especial.')
     if pw!=str(d.get('confirm','')):return error('As senhas não conferem.')
     char_name=str(d.get('nome','')).strip()
-    if not re.fullmatch(r'[\\w.\\[\\]\\-]{2,50}',char_name,re.UNICODE):
+    if not (2 <= len(char_name) <= 50 and all(ch.isalnum() or ch in '._-[]' for ch in char_name)):
         return error('Nome do personagem inválido (2 a 50 caracteres).')
     key=char_name.casefold()
     existing=Character.query.filter_by(name_key=key).first()
