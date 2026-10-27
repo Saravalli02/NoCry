@@ -200,7 +200,15 @@ header .brand img.nocry-brand-logo{animation:nocryLogoGlow 3s ease-in-out infini
 header .brand .nocry-brand-lines strong{font-family:var(--nocry-title-font,"Oxanium",sans-serif);font-size:clamp(14px,1.65vw,25px);font-weight:800;letter-spacing:.035em;white-space:nowrap;line-height:1.15;color:#ffcc80;text-shadow:0 0 10px #e45a2359}
 header .brand img.nocry-brand-logo{animation:none;object-fit:cover;border-radius:9px;flex-shrink:0}
 @media(max-width:800px){header .brand .nocry-brand-lines strong{font-size:clamp(11px,2.3vw,19px);letter-spacing:0}}
-</style></head><body><header><div class="brand"><img class="nocry-brand-logo" src="/assets/logo-animado.gif" alt="Logo NOCRY"><div class="nocry-brand-lines"><strong>NOCRY / N0CRY / NOWCRY</strong></div></div><nav><button class="active" data-tab="inicio">🔥 Início</button><button data-tab="membros">👥 Membros</button><button data-tab="ranking">🏆 Ranking</button><button data-tab="pesquisa">🔎 Personagem</button><button data-tab="galeria">📸 Galeria</button><button data-tab="inscricao">⚔️ Inscrever-se</button></nav></header><main>
+/* Correções v11: logo existente e nome do terceiro líder legível */
+header .brand img.nocry-brand-logo{display:block;width:62px;height:62px;object-fit:cover;flex:0 0 62px}
+#nocryLeaders{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+#nocryLeaders .nocry-leader-art{aspect-ratio:1.92;overflow:hidden}
+#nocryLeaders .nocry-leader-art img{object-fit:contain;width:100%;height:100%}
+#nocryLeaders .nocry-silent-card{isolation:isolate}
+#nocryLeaders .nocry-silent-name{position:absolute;z-index:2;right:2.5%;top:24%;width:56%;height:31%;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,#190b08 0%,#180907 78%,#1c0907 100%);color:#fff0d4;font-family:"Oxanium",sans-serif;font-weight:800;font-size:clamp(13px,1.8vw,26px);letter-spacing:-.035em;text-shadow:0 2px 1px #8e2f0b,0 0 8px #ff7a2a;white-space:nowrap}
+@media(max-width:850px){#nocryLeaders{grid-template-columns:1fr;max-width:650px;margin:0 auto}#nocryLeaders .nocry-silent-name{font-size:clamp(20px,5vw,33px)}}
+</style></head><body><header><div class="brand"><img class="nocry-brand-logo" src="/assets/logo.jpg" alt="Logo NOCRY"><div class="nocry-brand-lines"><strong>NOCRY / N0CRY / NOWCRY</strong></div></div><nav><button class="active" data-tab="inicio">🔥 Início</button><button data-tab="membros">👥 Membros</button><button data-tab="ranking">🏆 Ranking</button><button data-tab="pesquisa">🔎 Personagem</button><button data-tab="galeria">📸 Galeria</button><button data-tab="inscricao">⚔️ Inscrever-se</button></nav></header><main>
 <section id="inicio"><div class="hero"><div class="hero-content"><div class="crest-fire" aria-label="Emblema original NOCRY com círculo de fogo animado"><canvas id="fireCanvas" class="fire-canvas" aria-hidden="true"></canvas><div class="flame-halo"></div><div class="flame-ring"></div><div class="ember-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><img src="assets/logo.jpg" alt="Logo original CLAN NOCRY ZEPHIRA"></div><p class="world-title">ZEPHIRAWORLD • PRISTON TALE</p></div></div><div class="kpis"><div class="kpi"><small>Bosses monitorados</small><strong id="total">—</strong></div><div class="kpi"><small>Bosses nível 70+</small><strong id="elite">—</strong></div><div class="kpi"><small>Próximo nascimento</small><strong id="next">—</strong></div><div class="kpi"><small>Fonte de dados</small><strong id="apiStatus" style="font-size:17px">Conectando...</strong></div></div><div class="nocry-showcase" aria-label="Destaques do clã NOCRY">
 <div><div class="nocry-showcase-head"><h2>👑 LÍDERES DO CLÃ</h2></div><div id="nocryLeaders" class="nocry-highlight-grid"></div></div>
 <div><div class="nocry-showcase-head"><h2>⚔️ PT TOP • DESTAQUES NÍVEL 83</h2></div><div id="nocryTop" class="nocry-highlight-grid top"></div></div>
@@ -319,7 +327,7 @@ document.getElementById('nocryLeaders').innerHTML=[
   ['snoopy','Snoopy • Líder • Atalanta'],
   ['kundo','KUNDO • Sub-líder • Pike'],
   ['zsilentedge','zSilentEdge • Sub-líder • Cavaleiro']
-].map(([file,label])=>`<div class="nocry-leader-art"><img src="/assets/leaders/${file}.webp" alt="${label}" loading="lazy"></div>`).join('');
+].map(([file,label])=>`<div class="nocry-leader-art ${file==='zsilentedge'?'nocry-silent-card':''}"><img src="/assets/leaders/${file}.webp" alt="${label}" loading="lazy">${file==='zsilentedge'?'<div class="nocry-silent-name">zSilentEdge</div>':''}</div>`).join('');
 document.getElementById('nocryTop').innerHTML=nocryMembers
   .filter(m=>Number(m.nivel)===Math.max(...nocryMembers.map(x=>Number(x.nivel))))
   .sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'))
