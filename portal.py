@@ -199,7 +199,10 @@ def public_char(c): return dict(id=c.id,nome=c.name,classe=c.klass,nivel=c.level
 def characters():
     tag=request.args.get('tag','').upper()
     if tag and tag not in TAGS: return error('TAG inválida.')
-    q=Character.query
+    # Ocultar personagens criados por novos cadastros até aprovação da liderança.
+    # Personagens legados sem dono continuam visíveis.
+    pending_new=db.session.query(Claim.character_id).filter(Claim.status=='pending')
+    q=Character.query.filter(~((Character.owner_id.is_(None)) & (Character.role=='') & (Character.id.in_(pending_new))))
     if tag:q=q.filter_by(tag=tag)
     return jsonify(characters=[public_char(c) for c in q.order_by(Character.level.desc(),Character.name).all()])
 
