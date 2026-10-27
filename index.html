@@ -461,6 +461,70 @@ header.nocry-premium-header nav button:focus-visible{
  border-color:#ffb36d!important;
  box-shadow:0 0 12px rgba(255,133,55,.34)!important;
 }
+
+/* OPÇÃO 2 — dark fantasy refinado, com fundo visível e escudo original intacto */
+header.nocry-premium-header{
+ background:rgba(8,8,10,.19)!important;
+ background-image:none!important;
+ border-bottom:1px solid rgba(206,135,63,.68)!important;
+ box-shadow:0 3px 18px rgba(0,0,0,.15)!important;
+ backdrop-filter:none!important;
+ -webkit-backdrop-filter:none!important;
+ gap:11px!important;
+}
+header.nocry-premium-header .nocry-home-link{gap:15px!important}
+header.nocry-premium-header .nocry-brand-logo{
+ border-radius:5px!important;
+ border:1px solid #d77a33!important;
+ box-shadow:0 0 0 2px #0b0908,0 0 15px rgba(255,111,27,.65)!important;
+}
+header.nocry-premium-header .nocry-brand-lines strong{
+ font-family:Georgia,'Times New Roman',serif!important;
+ font-size:clamp(23px,2.65vw,34px)!important;
+ font-weight:700!important;
+ letter-spacing:.015em!important;
+ color:#f6d6a4!important;
+ text-shadow:0 2px 7px #000,0 0 14px #ec8a4140!important;
+}
+header.nocry-premium-header .nocry-brand-lines small{
+ font-family:Georgia,serif!important;
+ font-size:11px!important;
+ font-weight:700!important;
+ letter-spacing:.18em!important;
+ color:#d6a66e!important;
+}
+header.nocry-premium-header nav{gap:10px!important}
+header.nocry-premium-header nav button{
+ position:relative;
+ min-height:49px!important;
+ border-radius:5px!important;
+ border:1px solid rgba(194,119,58,.76)!important;
+ background:rgba(9,8,10,.44)!important;
+ background-image:none!important;
+ box-shadow:inset 0 1px 0 #f4b7731f,0 5px 12px #0005!important;
+ font-family:Georgia,'Times New Roman',serif!important;
+ font-weight:700!important;
+ font-size:clamp(12px,1.05vw,15px)!important;
+ letter-spacing:0!important;
+ color:#f5e0c4!important;
+ text-shadow:0 1px 4px #000!important;
+ transition:background .2s,border-color .2s,box-shadow .2s,transform .2s!important;
+}
+header.nocry-premium-header nav button.active,
+header.nocry-premium-header nav button:hover,
+header.nocry-premium-header nav button:focus-visible{
+ background:linear-gradient(180deg,rgba(135,50,14,.8),rgba(55,20,9,.73))!important;
+ border-color:#f9a65b!important;
+ box-shadow:inset 0 0 13px #e9763938,0 0 14px #ff6a2690!important;
+ color:#fff1d6!important;
+}
+header.nocry-premium-header nav button:hover{transform:translateY(-1px)}
+@media(max-width:760px){
+ header.nocry-premium-header .nocry-brand-lines strong{font-size:clamp(17px,4vw,26px)!important}
+ header.nocry-premium-header .nocry-brand-lines small{font-size:9px!important}
+ header.nocry-premium-header nav button{font-size:12px!important;min-height:44px!important}
+}
+@media(prefers-reduced-motion:reduce){header.nocry-premium-header nav button{transition:none!important}}
 </style></head><body><header class="nocry-premium-header"><a class="brand nocry-home-link" href="#inicio" aria-label="NOCRY — voltar para início"><img class="nocry-brand-logo" src="/assets/logo.jpg" alt="Escudo NOCRY"><div class="nocry-brand-lines"><strong>NOCRY / N0CRY / NOWCRY</strong><small>GUILD · PRISTON TALE</small></div></a><nav aria-label="Menu principal"><button class="active" data-tab="inicio">🔥 Início</button><button data-tab="membros">👥 Membros</button><button data-tab="ranking">🏆 Ranking</button><button data-tab="tags">🛡️ TAG's</button><button data-tab="galeria">📸 Galeria</button><button data-tab="inscricao">⚔️ Recrutamento</button><button data-tab="portal">🔐 Entrar / Painel</button></nav></header><main>
 <section id="inicio"><div class="hero"><div class="hero-content"><div class="crest-fire" aria-label="Emblema original NOCRY com círculo de fogo animado"><canvas id="fireCanvas" class="fire-canvas" aria-hidden="true"></canvas><div class="flame-halo"></div><div class="flame-ring"></div><div class="ember-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><img src="assets/logo.jpg" alt="Logo original CLAN NOCRY ZEPHIRA"></div><p class="world-title">ZEPHIRAWORLD • PRISTON TALE</p></div></div><div class="nocry-dual-cta" aria-label="Acesso ao recrutamento e painel do clã">
  <a class="nocry-recruit-mini" href="#inscricao" aria-label="Venha fazer parte do clã NOCRY: abrir recrutamento" onclick="event.preventDefault();document.querySelector('nav button[data-tab=&quot;inscricao&quot;]')?.click();window.scrollTo({top:0,behavior:'smooth'})">
