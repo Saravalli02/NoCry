@@ -1,0 +1,92 @@
+NOCRY — PORTAL DO JOGADOR (versão de implantação)
+================================================
+
+IMPORTANTE: NÃO publique apenas o index.html. Este recurso depende de banco de dados,
+servidor Flask, SMTP e (para lembretes) Discord OAuth e um processo agendado.
+O código foi verificado quanto à sintaxe Python e JavaScript, mas NÃO foi testado
+integralmente com PostgreSQL, SMTP ou Discord reais. Faça um teste em ambiente separado
+antes de publicar no domínio principal.
+
+ARQUIVOS DO PACOTE
+- index.html: site original com nova aba TAG's e Portal do Jogador.
+- app.py: mantém as rotas do radar de bosses, recrutamento e arquivos.
+- portal.py: autenticação, banco de dados, fichas, aprovações, Discord OAuth.
+- initial_members.json: importa os 45 personagens originais uma única vez.
+- remind.py: lembretes por DM, para execução agendada a cada seis horas.
+- requirements.txt: dependências do servidor.
+- assets/fonts/Coolvetica Rg.otf: fonte utilizada no menu.
+
+NÃO apague as pastas de imagens e artes existentes em assets/. Este pacote traz
+somente arquivos novos/alterados; não contém as imagens existentes do site.
+
+PASSO 1 — BACKUP
+Salve uma cópia do GitHub atual e da configuração Render. Teste em um serviço
+Render separado, se possível.
+
+PASSO 2 — GITHUB
+Copie os arquivos do pacote para a raiz do repositório e mantenha assets/ intacta.
+Use requirements.txt e o comando de inicialização:
+  gunicorn app:app
+
+PASSO 3 — POSTGRESQL PERSISTENTE
+Crie uma instância PostgreSQL acessível pelo serviço Render.
+Configure DATABASE_URL com a URL de conexão do PostgreSQL.
+Não use SQLite em disco efêmero do Render para dados reais: os cadastros
+poderiam ser perdidos após reinicialização ou deploy.
+
+PASSO 4 — VARIÁVEIS DO SERVIÇO WEB (Render > Environment)
+  DATABASE_URL           = URL privada do PostgreSQL
+  SECRET_KEY             = sequência aleatória longa e exclusiva (>= 32 bytes)
+  FLASK_ENV              = production
+  SITE_URL               = https://www.nocry.com.br
+  NOCRY_ADMIN_EMAIL      = e-mail da liderança que será o administrador
+  SMTP_HOST              = servidor SMTP do provedor de e-mail
+  SMTP_PORT              = 587
+  SMTP_USER              = usuário SMTP
+  SMTP_PASSWORD          = senha SMTP
+  SMTP_FROM              = remetente autorizado pelo provedor
+  DISCORD_CLIENT_ID      = ID da aplicação Discord
+  DISCORD_CLIENT_SECRET  = segredo da aplicação Discord
+  DISCORD_REDIRECT_URI   = https://www.nocry.com.br/api/discord/callback
+  DISCORD_BOT_TOKEN      = token do bot Discord
+  DISCORD_RECRUTAMENTO_WEBHOOK = webhook já usado no recrutamento (se existir)
+
+Nunca escreva senhas, tokens ou URL do banco no index.html ou no GitHub.
+
+PASSO 5 — PRIMEIRO ADMINISTRADOR
+Crie uma conta no Portal com o e-mail EXATAMENTE igual ao NOCRY_ADMIN_EMAIL.
+Clique no link de confirmação enviado por SMTP. Essa conta será promovida
+à liderança somente depois da confirmação do e-mail.
+
+PASSO 6 — DISCORD
+No Discord Developer Portal, cadastre exatamente a URL de callback acima
+na aplicação OAuth2. Convide o bot ao servidor da guild com permissão adequada.
+Os jogadores precisam entrar no painel, clicar em Conectar Discord, autorizar
+e ativar os lembretes. Mensagens privadas podem falhar por configurações de
+privacidade do Discord ou ausência de servidor compartilhado.
+
+PASSO 7 — LEMBRETES A CADA 6 HORAS
+Crie um Render Cron Job usando o MESMO banco e variáveis de ambiente do site.
+Comando: python remind.py
+Agendamento UTC: 0 */6 * * *
+Se o seu plano não oferecer cron, use outro agendador confiável.
+Não execute o agendamento dentro do processo Gunicorn.
+
+PASSO 8 — VERIFICAÇÕES ANTES DA PUBLICAÇÃO
+- Conta nova recebe e-mail, confirma e entra.
+- Conta nova cadastra personagem inédito e ele aparece na TAG correta.
+- Conta tenta cadastrar 'Snoopy': solicitação pendente, sem duplicação.
+- Admin aprova: o jogador passa a poder atualizar o personagem existente.
+- Troca NOCRY -> N0CRY atualiza a lista pública.
+- Exclusão remove personagem comum (lideranças são protegidas).
+- Discord conecta e lembrete é enviado somente a quem consentiu.
+- Radar, ranking, galeria, streamers e recrutamento continuam funcionando.
+
+LIMITAÇÕES ATUAIS
+- O painel não inclui recuperação automática de senha nem histórico de alterações.
+- A confirmação por e-mail depende do SMTP funcionar.
+- Mudança de propriedade de personagem já vinculado requer intervenção técnica;
+  não há ainda uma tela de transferência de propriedade.
+- Este pacote inicializa as tabelas automaticamente; futuras alterações de esquema
+  precisarão de migrações formais e backup do banco.
+- Não houve teste ponta a ponta com serviços externos nesta sessão.

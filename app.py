@@ -83,13 +83,20 @@ def inscricao():
     payload = {
         'username': 'Recrutamento NOCRY',
         'allowed_mentions': {'parse': []},
-        'embeds': [{'title': '⚔️ Nova inscrição — CLAN NOCRY', 'color': 15155230,
-            'fields': [{'name': 'Personagem', 'value': nome, 'inline': True},
-                       {'name': 'Classe', 'value': classe, 'inline': True},
-                       {'name': 'Nível', 'value': nivel, 'inline': True},
-                       {'name': 'Discord', 'value': discord, 'inline': False},
-                       {'name': 'WhatsApp', 'value': '+' + whatsapp if len(whatsapp) > 11 else whatsapp, 'inline': False}],
-            'footer': {'text': 'Formulário de recrutamento • NOCRY'}}]
+        'embeds': [{
+            'title': '⚔️ NOVO AVENTUREIRO · RECRUTAMENTO NOCRY',
+            'description': 'Uma nova solicitação chegou ao clã! A liderança pode analisar os dados abaixo e entrar em contato com o jogador.',
+            'color': 16081435,
+            'fields': [
+                {'name': '🎮 Personagem', 'value': nome, 'inline': True},
+                {'name': '⚔️ Classe', 'value': classe, 'inline': True},
+                {'name': '⭐ Nível', 'value': nivel, 'inline': True},
+                {'name': '💬 Discord', 'value': discord, 'inline': True},
+                {'name': '📱 WhatsApp', 'value': '+' + whatsapp if len(whatsapp) > 11 else whatsapp, 'inline': True},
+                {'name': '📋 Situação', 'value': 'Aguardando contato da liderança', 'inline': False},
+            ],
+            'footer': {'text': 'NOCRY • Recrutamento | Priston Tale'}
+        }]
     }
     try:
         req = Request(webhook, data=json.dumps(payload, ensure_ascii=False).encode('utf-8'),
@@ -102,6 +109,10 @@ def inscricao():
         return jsonify(error='Discord indisponível no momento. Tente novamente.'), 502
     recent.append(now)
     return jsonify(ok=True), 200
+
+# Portal persistente de personagens
+from portal import setup as setup_portal
+setup_portal(app)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=int(os.environ.get('PORT','5000')))
