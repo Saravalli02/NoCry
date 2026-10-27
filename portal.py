@@ -121,7 +121,7 @@ def auth(fn):
     def wrapper(*a,**kw):
         u=current_user()
         if not u: return error('Faça login.',401)
-        if not u.verified: return error('Confirme seu e-mail.',403)
+        if not u.verified: return error('Cadastro aguardando aprovação da liderança.',403)
         return fn(u,*a,**kw)
     return wrapper
 
@@ -167,60 +167,44 @@ def whoami():
 
 @portal.post('/api/auth/register')
 def register():
-    d=body(); name=str(d.get('username','')).strip(); email=str(d.get('email','')).strip().lower(); pw=str(d.get('password',''))
-    if not re.fullmatch(r'[A-Za-z0-9_.-]{3,40}',name): return error('Login: 3 a 40 caracteres, letras, números, _, . ou -.')
-    if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+',email) or len(email)>254: return error('E-mail inválido.')
-    if len(pw)<10 or len(pw)>128: return error('Senha deve ter entre 10 e 128 caracteres.')
-    if not os.environ.get('SMTP_HOST'): return error('Cadastro indisponível: envio de e-mail não configurado.',503)
-    if User.query.filter((func.lower(User.username)==name.lower()) | (User.email==email)).first(): return error('Login ou e-mail já utilizado.',409)
-    u=User(username=name,email=email,password_hash=generate_password_hash(pw))
+    d=body();name=str(d.get('username','')).strip();pw=str(d.get('password',''))
+    if not re.fullmatch(r'[A-Za-z0-9_.-]{3,40}',name):return error('Login: 3 a 40 caracteres, letras, números, _, . ou -.')
+    if len(pw)<10 or len(pw)>128:return error('Senha deve ter entre 10 e 128 caracteres.')
+    if pw!=str(d.get('confirm','')):return error('As senhas não conferem.')
+    try:name_char,klass,tag,level,percent=validate_char(d)
+    except ValueError as e:return error(str(e))
+    ip=request.remote_addr or 'unknown'
+    bucket='signup:'+hashlib.sha256(ip.encode()).hexdigest()[:40]
+    cutoff=utcnow()-timedelta(hours=1)
+    db.session.query(LoginAttempt).filter(LoginAttempt.created_at<cutoff).delete(synchronize_session=False)
+    if LoginAttempt.query.filter_by(key=bucket).count()>=5:
+        db.session.commit();return error('Muitos cadastros. Aguarde uma hora.',429)
+    if User.query.filter(func.lower(User.username)==name.lower()).first():return error('Login já utilizado.',409)
+    key=name_char.casefold();existing=Character.query.filter_by(name_key=key).first()
+    if existing and existing.owner_id is not None:return error('Personagem já vinculado a outra conta.',409)
+    # Compatibilidade com o banco atual: a coluna email é obrigatória, mas não coletamos nem enviamos e-mails.
+    # Valor interno exclusivo não é endereço utilizável e não autoriza login por e-mail.
+    internal_email='nocry-'+secrets.token_hex(16)+'@invalid.example'
+    u=User(username=name,email=internal_email,password_hash=generate_password_hash(pw),verified=False,is_admin=False)
     db.session.add(u)
-    try: db.session.commit()
-    except IntegrityError: db.session.rollback();return error('Login ou e-mail já utilizado.',409)
-    try: mail_verification(u)
-    except Exception:
-        current_app.logger.exception('Falha no e-mail de confirmação')
-        return error('Conta criada, mas não foi possível enviar o e-mail. Contate a liderança.',503)
-    return jsonify(ok=True,message='Conta criada! Verifique seu e-mail.'),201
-
-@portal.post('/api/auth/resend-verification')
-def resend_verification():
-    """Reenvia confirmação sem revelar se um endereço está cadastrado."""
-    d=body()
-    email=str(d.get('email','')).strip().lower()
-    if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+',email) or len(email)>254:
-        return error('Informe um e-mail válido.')
-    ip=request.headers.get('X-Forwarded-For',request.remote_addr or '').split(',')[0].strip()[:45]
-    # Limite por IP e endereço, sem exigir login de uma conta ainda não confirmada.
-    bucket='verify:'+hashlib.sha256((ip+'|'+email).encode()).hexdigest()[:40]
-    cutoff=utcnow()-timedelta(minutes=15)
-    db.session.query(LoginAttempt).filter(LoginAttempt.created_at<cutoff).delete()
-    if LoginAttempt.query.filter_by(key=bucket).count()>=3:
+    try:
+        db.session.flush()
+        ch=existing
+        if ch is None:
+            ch=Character(name=name_char,name_key=key,klass=klass,tag=tag,level=level,percent=percent,owner_id=None)
+            db.session.add(ch);db.session.flush()
+        # Reivindicação existente preserva os dados oficiais do personagem até aprovação.
+        if Claim.query.filter_by(character_id=ch.id,user_id=u.id).first():
+            raise ValueError('Solicitação já existente.')
+        cl=Claim(character_id=ch.id,user_id=u.id,status='pending')
+        db.session.add(cl)
+        db.session.add(LoginAttempt(key=bucket))
         db.session.commit()
-        return error('Muitas solicitações. Aguarde 15 minutos antes de tentar novamente.',429)
-    db.session.add(LoginAttempt(key=bucket))
-    db.session.commit()
-    u=User.query.filter_by(email=email).first()
-    if u and not u.verified:
-        try:
-            if not mail_verification(u):
-                return error('Envio de e-mail não configurado. Contate a liderança.',503)
-        except Exception:
-            current_app.logger.exception('Falha ao reenviar confirmação')
-            return error('Não foi possível enviar o e-mail agora. Tente novamente mais tarde.',503)
-    return jsonify(ok=True,message='Se existir uma conta pendente com esse e-mail, enviaremos um novo link de confirmação.')
-
-@portal.get('/api/auth/verify')
-def verify():
-    try: d=serializer().loads(request.args.get('token',''),max_age=86400)
-    except (BadSignature,SignatureExpired): return 'Link inválido ou expirado.',400
-    u=db.session.get(User,d.get('id'))
-    if not u or u.email!=d.get('email'): return 'Conta não encontrada.',404
-    u.verified=True
-    admin_email=os.environ.get('NOCRY_ADMIN_EMAIL','').lower().strip()
-    if admin_email and u.email==admin_email: u.is_admin=True
-    db.session.commit()
-    return redirect('/?conta=confirmada#portal')
+    except (IntegrityError,ValueError):
+        db.session.rollback()
+        return error('Não foi possível concluir o cadastro. Confira o login e o personagem.',409)
+    notify_discord_approval(u,ch,cl)
+    return jsonify(ok=True,message='Cadastro enviado! Aguarde a aprovação da liderança para acessar o painel.'),202
 
 @portal.post('/api/auth/login')
 def login():
@@ -230,10 +214,10 @@ def login():
     cutoff=utcnow()-timedelta(minutes=15)
     db.session.query(LoginAttempt).filter(LoginAttempt.created_at<cutoff).delete()
     if LoginAttempt.query.filter_by(key=bucket).count()>=8: db.session.commit();return error('Muitas tentativas. Aguarde 15 minutos.',429)
-    u=User.query.filter((func.lower(User.username)==key)|(User.email==key)).first()
+    u=User.query.filter(func.lower(User.username)==key).first()
     if not u or not check_password_hash(u.password_hash,pw):
         db.session.add(LoginAttempt(key=bucket));db.session.commit();return error('Credenciais inválidas.',401)
-    if not u.verified: return error('Confirme seu e-mail antes de entrar.',403)
+    if not u.verified: return error('Cadastro aguardando aprovação da liderança.',403)
     db.session.query(LoginAttempt).filter_by(key=bucket).delete()
     db.session.commit()
     session.clear();session['uid']=u.id;session['csrf']=secrets.token_urlsafe(32);session.permanent=True
@@ -318,6 +302,37 @@ def delete_char(u,cid):
     if not c or c.owner_id!=u.id:return error('Personagem não encontrado.',404)
     if c.role:return error('Personagem da liderança: solicite alteração ao administrador.',403)
     db.session.delete(c);db.session.commit();return jsonify(ok=True)
+
+@portal.get('/api/admin/accounts')
+@admin
+def pending_accounts(u):
+    users=User.query.filter_by(verified=False,is_admin=False).order_by(User.created_at).all()
+    result=[]
+    for account in users:
+        claims=db.session.query(Claim,Character).join(Character,Claim.character_id==Character.id).filter(Claim.user_id==account.id,Claim.status=='pending').all()
+        result.append(dict(id=account.id,username=account.username,created_at=account.created_at.isoformat() if account.created_at else None,
+            characters=[dict(id=ch.id,nome=ch.name,classe=ch.klass,tag=ch.tag,nivel=ch.level,percent=ch.percent) for cl,ch in claims]))
+    return jsonify(accounts=result)
+
+@portal.post('/api/admin/accounts/<int:uid>/decision')
+@admin
+def account_decision(u,uid):
+    account=db.session.get(User,uid);choice=body().get('decision')
+    if not account or account.is_admin or account.verified or choice not in ('approve','reject'):
+        return error('Conta ou decisão inválida.',400)
+    if choice=='approve':
+        account.verified=True
+        # Apenas aprova a conta. A posse dos personagens exige decisão separada.
+    else:
+        claims=Claim.query.filter_by(user_id=account.id,status='pending').all()
+        for cl in claims:
+            cl.status='rejected'
+            ch=db.session.get(Character,cl.character_id)
+            if ch and ch.owner_id is None and not ch.role and Claim.query.filter(Claim.character_id==ch.id,Claim.id!=cl.id,Claim.status=='pending').count()==0:
+                db.session.delete(ch)
+        db.session.delete(account)
+    db.session.commit()
+    return jsonify(ok=True)
 
 @portal.get('/api/admin/claims')
 @admin
