@@ -193,7 +193,7 @@ def login():
 @portal.post('/api/auth/logout')
 def logout(): session.clear();return jsonify(ok=True)
 
-def public_char(c): return dict(id=c.id,nome=c.name,classe=c.klass,nivel=c.level,percent=round(c.percent,2),tag=c.tag,cargo=c.role)
+def public_char(c): return dict(id=c.id,nome=c.name,classe=c.klass,nivel=c.level,percent=round(c.percent,2),tag=c.tag,cargo=c.role,updated_at=c.updated_at.isoformat() if c.updated_at else None)
 
 @portal.get('/api/characters')
 def characters():
