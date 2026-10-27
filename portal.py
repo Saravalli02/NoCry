@@ -206,6 +206,7 @@ def characters():
     # Personagens legados sem dono continuam visíveis.
     pending_new=db.session.query(Claim.character_id).filter(Claim.status=='pending')
     q=Character.query.filter(~((Character.owner_id.is_(None)) & (Character.role=='') & (Character.id.in_(pending_new))))
+    q=q.filter(Character.klass!='Pendente')
     if tag:q=q.filter_by(tag=tag)
     return jsonify(characters=[public_char(c) for c in q.order_by(Character.level.desc(),Character.name).all()])
 
