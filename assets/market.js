@@ -8,7 +8,7 @@ const details=selectedItem?'<div class="mk-step"><strong>3. Configure o anúncio
 return '<form data-kind="'+kind+'" class="mk-form"><h3>'+(kind==='request'?'🔎 Quero solicitar um equipamento':'🎁 Vou doar ou vender um equipamento')+'</h3>'+choose+list+details+'</form>'
 }
 let filters={search:'',category:'',spec:'',min:'',max:''};
-const types={Itda:'Armaduras',Itdb:'Botas',Itdg:'Luvas',Itds:'Escudos',Itoa:'Acessórios',Itom:'Braceletes',Itwa:'Lanças',Itwc:'Martelos',Itwh:'Garras',Itwm:'Machados',Itwp:'Foices',Itws:'Espadas',Itwt:'Cajados'};
+const types={Itda:'Armaduras',Itdr:'Roupões',Itdb:'Botas',Itdg:'Luvas',Itds:'Escudos',Itoa:'Acessórios',Itom:'Braceletes',Itwa:'Lanças',Itwc:'Martelos',Itwh:'Garras',Itwm:'Machados',Itwp:'Foices',Itws:'Espadas',Itwt:'Cajados'};
 let catalog=[];
 fetch('/assets/itens-catalogo.json').then(r=>r.ok?r.json():[]).then(rows=>{catalog=rows.filter(i=>i&&i.id&&i.name&&i.image);render()}).catch(()=>{});
 function imageFor(x){const found=catalog.find(i=>i.name&&i.name.toLowerCase()===String(x.item).toLowerCase()&&i.level===x.level);return found?found.image:''}
