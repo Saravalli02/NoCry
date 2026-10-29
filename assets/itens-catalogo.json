@@ -201,55 +201,55 @@
   },
   {
     "id": "Itds108",
-    "name": "Escudo Grande",
-    "level": 55,
+    "name": "Escudo Chama",
+    "level": 37,
     "category": "Itds",
     "image": "/assets/itens/Itds108.png",
     "review": true
   },
   {
     "id": "Itds111",
-    "name": "Escudo Espinhoso",
-    "level": 60,
+    "name": "Escudo Grande",
+    "level": 55,
     "category": "Itds",
     "image": "/assets/itens/Itds111.png",
     "review": true
   },
   {
     "id": "Itds112",
-    "name": "Escudo Grandioso",
-    "level": 65,
+    "name": "Escudo Espinhoso",
+    "level": 60,
     "category": "Itds",
     "image": "/assets/itens/Itds112.png",
     "review": true
   },
   {
     "id": "Itds113",
-    "name": "Escudo Extremo",
-    "level": 70,
+    "name": "Escudo Grandioso",
+    "level": 65,
     "category": "Itds",
     "image": "/assets/itens/Itds113.png",
     "review": true
   },
   {
     "id": "Itds114",
-    "name": "Escudo Gladiador",
-    "level": 75,
+    "name": "Escudo Extremo",
+    "level": 70,
     "category": "Itds",
     "image": "/assets/itens/Itds114.png",
     "review": true
   },
   {
     "id": "Itds115",
-    "name": "Escudo Sintético (80A)",
-    "level": 80,
+    "name": "Escudo Gladiador",
+    "level": 75,
     "category": "Itds",
     "image": "/assets/itens/Itds115.png",
     "review": true
   },
   {
     "id": "Itds116",
-    "name": "Escudo Titan (80B)",
+    "name": "Escudo Sintético (80A)",
     "level": 80,
     "category": "Itds",
     "image": "/assets/itens/Itds116.png",
@@ -257,7 +257,7 @@
   },
   {
     "id": "Itds117",
-    "name": "Escudo Místico (80C)",
+    "name": "Escudo Titan (80B)",
     "level": 80,
     "category": "Itds",
     "image": "/assets/itens/Itds117.png",
@@ -265,7 +265,7 @@
   },
   {
     "id": "Itds118",
-    "name": "Escudo do Vampiro (80D)",
+    "name": "Escudo Místico (80C)",
     "level": 80,
     "category": "Itds",
     "image": "/assets/itens/Itds118.png",
