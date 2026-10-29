@@ -120,6 +120,11 @@ from portal import db as portal_db
 app.register_blueprint(market_blueprint)
 with app.app_context():
     portal_db.create_all()
+    from sqlalchemy import text
+    # Atualização aditiva, preservando anúncios existentes.
+    for table in ('market_requests', 'market_offers'):
+        with portal_db.engine.begin() as conn:
+            conn.execute(text(f'ALTER TABLE {table} ADD COLUMN IF NOT EXISTS spec VARCHAR(20)'))
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=int(os.environ.get('PORT','5000')))
