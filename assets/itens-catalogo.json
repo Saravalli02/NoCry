@@ -3,7 +3,7 @@
     "id": "wiki-main-001",
     "name": "Amuleto Encantado",
     "level": 75,
-    "category": "Amuletos",
+    "category": "Orbitais",
     "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Amuleto%20Encantado75.png",
     "review": false,
     "source_filename": "Amuleto Encantado75.png"
@@ -12,7 +12,7 @@
     "id": "wiki-main-002",
     "name": "Amuleto Salamandra (80C)",
     "level": 80,
-    "category": "Amuletos",
+    "category": "Orbitais",
     "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Amuleto%20Salamandra%20(80C).png",
     "review": false,
     "source_filename": "Amuleto Salamandra (80C).png"
@@ -191,11 +191,11 @@
   {
     "id": "wiki-main-022",
     "name": "Bracelete Minotauro",
-    "level": null,
+    "level": 75,
     "category": "Itom",
-    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Bracelete%20Minotauro.png",
-    "review": true,
-    "source_filename": "Bracelete Minotauro.png"
+    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Bracelete%20Minotauro75.png",
+    "review": false,
+    "source_filename": "Bracelete Minotauro75.png"
   },
   {
     "id": "wiki-main-023",
@@ -218,11 +218,11 @@
   {
     "id": "wiki-main-025",
     "name": "Bracelete da Justiça",
-    "level": null,
+    "level": 70,
     "category": "Itom",
-    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Bracelete%20da%20Justi%C3%A7a.png",
-    "review": true,
-    "source_filename": "Bracelete da Justiça.png"
+    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Bracelete%20da%20Justi%C3%A7a70.png",
+    "review": false,
+    "source_filename": "Bracelete da Justiça70.png"
   },
   {
     "id": "wiki-main-026",
@@ -469,12 +469,12 @@
   },
   {
     "id": "wiki-main-053",
-    "name": "Imortal (80C)",
+    "name": "Foice Imortal (80C)",
     "level": 80,
-    "category": "Revisar",
-    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Imortal%20(80C).png",
-    "review": true,
-    "source_filename": "Imortal (80C).png"
+    "category": "Itwp",
+    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Foice%20Imortal%20(80C).png",
+    "review": false,
+    "source_filename": "Foice Imortal (80C).png"
   },
   {
     "id": "wiki-main-054",
@@ -524,11 +524,11 @@
   {
     "id": "wiki-main-059",
     "name": "Luvas Grandiosas",
-    "level": null,
+    "level": 70,
     "category": "Itdg",
-    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Luvas%20Grandiosas.png",
-    "review": true,
-    "source_filename": "Luvas Grandiosas.png"
+    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Luvas%20Grandiosas70.png",
+    "review": false,
+    "source_filename": "Luvas Grandiosas70.png"
   },
   {
     "id": "wiki-main-060",
@@ -551,11 +551,11 @@
   {
     "id": "wiki-main-062",
     "name": "Luvas de Marfim",
-    "level": null,
+    "level": 75,
     "category": "Itdg",
-    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Luvas%20de%20Marfim.png",
-    "review": true,
-    "source_filename": "Luvas de Marfim.png"
+    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Luvas%20de%20Marfim75.png",
+    "review": false,
+    "source_filename": "Luvas de Marfim75.png"
   },
   {
     "id": "wiki-main-063",
@@ -651,10 +651,10 @@
     "id": "wiki-main-073",
     "name": "Mundane (80B)",
     "level": 80,
-    "category": "Revisar",
-    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Mundane%20(80B).png",
-    "review": true,
-    "source_filename": "Mundane (80B).png"
+    "category": "Orbitais",
+    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Amuleto%20Mundane%20(80B).png",
+    "review": false,
+    "source_filename": "Amuleto Mundane (80B).png"
   },
   {
     "id": "wiki-main-074",
@@ -667,12 +667,12 @@
   },
   {
     "id": "wiki-main-075",
-    "name": "Oráculo (80B)",
+    "name": "Foice Oráculo (80B)",
     "level": 80,
     "category": "Itwp",
-    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Or%C3%A1culo%20(80B).png",
+    "image": "https://raw.githubusercontent.com/Saravalli02/NoCry/main/assets/itens/Foice%20Or%C3%A1culo%20(80B).png",
     "review": false,
-    "source_filename": "Oráculo (80B).png"
+    "source_filename": "Foice Oráculo (80B).png"
   },
   {
     "id": "wiki-main-076",
