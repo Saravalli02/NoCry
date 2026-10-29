@@ -98,7 +98,7 @@ def money(d,key):
 
 @market.get('/api/market')
 @auth
-def listing():
+def listing(u):
     uid=current_user().id
     requests=MarketRequest.query.filter_by(status='open').order_by(MarketRequest.created_at,MarketRequest.id).limit(250).all()
     offers=MarketOffer.query.filter_by(status='open').order_by(MarketOffer.created_at,MarketOffer.id).limit(250).all()
@@ -108,7 +108,7 @@ def listing():
 
 @market.post('/api/market/request')
 @auth
-def request_item():
+def request_item(u):
     f=fields()
     if not f:return fail('Informe item, Spec, quantidade (1 a 99) e contato.')
     d,item,level,spec,quantity,contact,value=f
@@ -122,7 +122,7 @@ def request_item():
 
 @market.post('/api/market/offer')
 @auth
-def offer_item():
+def offer_item(u):
     f=fields()
     if not f:return fail('Informe item, Spec, quantidade (1 a 99) e contato.')
     d,item,level,spec,quantity,contact,value=f
@@ -137,7 +137,7 @@ def offer_item():
 
 @market.post('/api/market/offer/<int:offer_id>/match')
 @auth
-def match(offer_id):
+def match(u, offer_id):
     x=MarketOffer.query.filter_by(id=offer_id).with_for_update().first()
     if not x or x.user_id!=current_user().id or x.status!='open' or remaining(x,'offer')<1:return fail('Oferta indisponível.')
     d=request.get_json(silent=True) or {}
@@ -156,7 +156,7 @@ def match(offer_id):
 
 @market.post('/api/market/match/<int:match_id>/received')
 @auth
-def received(match_id):
+def received(u, match_id):
     m=MarketMatch.query.filter_by(id=match_id).with_for_update().first()
     if not m or m.status!='pending':return fail('Reserva indisponível.')
     q=MarketRequest.query.filter_by(id=m.request_id).with_for_update().first()
@@ -171,7 +171,7 @@ def received(match_id):
 
 @market.post('/api/market/match/<int:match_id>/cancel')
 @auth
-def cancel_match(match_id):
+def cancel_match(u, match_id):
     m=MarketMatch.query.filter_by(id=match_id).with_for_update().first()
     if not m or m.status!='pending':return fail('Reserva indisponível.')
     x=db.session.get(MarketOffer,m.offer_id);q=db.session.get(MarketRequest,m.request_id)
@@ -184,14 +184,14 @@ def cancel_match(match_id):
 
 @market.post('/api/market/notifications/read')
 @auth
-def mark_read():
+def mark_read(u):
     MarketNotice.query.filter_by(user_id=current_user().id,read=False).update({'read':True})
     db.session.commit()
     return jsonify(ok=True)
 
 @market.post('/api/market/<kind>/<int:entry_id>/close')
 @auth
-def close(kind,entry_id):
+def close(u, kind,entry_id):
     model=MarketRequest if kind=='request' else MarketOffer if kind=='offer' else None
     if model is None:return fail('Tipo inválido.')
     x=model.query.filter_by(id=entry_id).with_for_update().first()
