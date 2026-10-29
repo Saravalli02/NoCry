@@ -1,0 +1,690 @@
+[
+  {
+    "id": "Itda115",
+    "name": "Armadura Suprema",
+    "level": 55,
+    "category": "Itda",
+    "image": "/assets/itens/Itda115.png",
+    "review": true
+  },
+  {
+    "id": "Itda116",
+    "name": "Armadura Espinhosa",
+    "level": 60,
+    "category": "Itda",
+    "image": "/assets/itens/Itda116.png",
+    "review": true
+  },
+  {
+    "id": "Itda117",
+    "name": "Armadura Titan",
+    "level": 65,
+    "category": "Itda",
+    "image": "/assets/itens/Itda117.png",
+    "review": true
+  },
+  {
+    "id": "Itda118",
+    "name": "Armadura Extrema",
+    "level": 70,
+    "category": "Itda",
+    "image": "/assets/itens/Itda118.png",
+    "review": true
+  },
+  {
+    "id": "Itda119",
+    "name": "Armadura Antiga",
+    "level": 75,
+    "category": "Itda",
+    "image": "/assets/itens/Itda119.png",
+    "review": true
+  },
+  {
+    "id": "Itda120",
+    "name": "Armadura Minotauro (80A)",
+    "level": 80,
+    "category": "Itda",
+    "image": "/assets/itens/Itda120.png",
+    "review": true
+  },
+  {
+    "id": "Itda121",
+    "name": "Armadura Demoníaca (80B)",
+    "level": 80,
+    "category": "Itda",
+    "image": "/assets/itens/Itda121.png",
+    "review": true
+  },
+  {
+    "id": "Itda214",
+    "name": "Armadura Salamandra (80C)",
+    "level": 80,
+    "category": "Itda",
+    "image": "/assets/itens/Itda214.png",
+    "review": true
+  },
+  {
+    "id": "Itda215",
+    "name": "Armadura Wyvern (80D)",
+    "level": 80,
+    "category": "Itda",
+    "image": "/assets/itens/Itda215.png",
+    "review": true
+  },
+  {
+    "id": "Itda216",
+    "name": "Armadura do Dragão (80E)",
+    "level": 80,
+    "category": "Itda",
+    "image": "/assets/itens/Itda216.png",
+    "review": true
+  },
+  {
+    "id": "Itda217",
+    "name": "Armadura Fênix",
+    "level": 100,
+    "category": "Itda",
+    "image": "/assets/itens/Itda217.png",
+    "review": true
+  },
+  {
+    "id": "Itda218",
+    "name": "Armadura Frenesi",
+    "level": 100,
+    "category": "Itda",
+    "image": "/assets/itens/Itda218.png",
+    "review": true
+  },
+  {
+    "id": "Itda219",
+    "name": "Armadura Mística",
+    "level": 100,
+    "category": "Itda",
+    "image": "/assets/itens/Itda219.png",
+    "review": true
+  },
+  {
+    "id": "Itda220",
+    "name": "Armadura Mágica",
+    "level": 100,
+    "category": "Itda",
+    "image": "/assets/itens/Itda220.png",
+    "review": true
+  },
+  {
+    "id": "Itdb113",
+    "name": "Botas Espinhosas",
+    "level": 60,
+    "category": "Itdb",
+    "image": "/assets/itens/Itdb113.png",
+    "review": true
+  },
+  {
+    "id": "Itdb114",
+    "name": "Botas Grandiosas",
+    "level": 65,
+    "category": "Itdb",
+    "image": "/assets/itens/Itdb114.png",
+    "review": true
+  },
+  {
+    "id": "Itdb115",
+    "name": "Botas Aladas",
+    "level": 70,
+    "category": "Itdb",
+    "image": "/assets/itens/Itdb115.png",
+    "review": true
+  },
+  {
+    "id": "Itdb116",
+    "name": "Botas Titan",
+    "level": 75,
+    "category": "Itdb",
+    "image": "/assets/itens/Itdb116.png",
+    "review": true
+  },
+  {
+    "id": "Itdb117",
+    "name": "Botas Santos (80A)",
+    "level": 80,
+    "category": "Itdb",
+    "image": "/assets/itens/Itdb117.png",
+    "review": true
+  },
+  {
+    "id": "Itdb118",
+    "name": "Botas Wyvern (80B)",
+    "level": 80,
+    "category": "Itdb",
+    "image": "/assets/itens/Itdb118.png",
+    "review": true
+  },
+  {
+    "id": "Itdg114",
+    "name": "Luvas Gigantes",
+    "level": 60,
+    "category": "Itdg",
+    "image": "/assets/itens/Itdg114.png",
+    "review": true
+  },
+  {
+    "id": "Itdg115",
+    "name": "Luvas Titan",
+    "level": 65,
+    "category": "Itdg",
+    "image": "/assets/itens/Itdg115.png",
+    "review": true
+  },
+  {
+    "id": "Itdg116",
+    "name": "Luvas Grandiosas",
+    "level": 70,
+    "category": "Itdg",
+    "image": "/assets/itens/Itdg116.png",
+    "review": true
+  },
+  {
+    "id": "Itdg117",
+    "name": "Luvas de Marfim",
+    "level": 75,
+    "category": "Itdg",
+    "image": "/assets/itens/Itdg117.png",
+    "review": true
+  },
+  {
+    "id": "Itdg118",
+    "name": "Luvas Santas (80A)",
+    "level": 80,
+    "category": "Itdg",
+    "image": "/assets/itens/Itdg118.png",
+    "review": true
+  },
+  {
+    "id": "Itds108",
+    "name": "Escudo Grande",
+    "level": 55,
+    "category": "Itds",
+    "image": "/assets/itens/Itds108.png",
+    "review": true
+  },
+  {
+    "id": "Itds111",
+    "name": "Escudo Espinhoso",
+    "level": 60,
+    "category": "Itds",
+    "image": "/assets/itens/Itds111.png",
+    "review": true
+  },
+  {
+    "id": "Itds112",
+    "name": "Escudo Grandioso",
+    "level": 65,
+    "category": "Itds",
+    "image": "/assets/itens/Itds112.png",
+    "review": true
+  },
+  {
+    "id": "Itds113",
+    "name": "Escudo Extremo",
+    "level": 70,
+    "category": "Itds",
+    "image": "/assets/itens/Itds113.png",
+    "review": true
+  },
+  {
+    "id": "Itds114",
+    "name": "Escudo Gladiador",
+    "level": 75,
+    "category": "Itds",
+    "image": "/assets/itens/Itds114.png",
+    "review": true
+  },
+  {
+    "id": "Itds115",
+    "name": "Escudo Titan (80A)",
+    "level": 80,
+    "category": "Itds",
+    "image": "/assets/itens/Itds115.png",
+    "review": true
+  },
+  {
+    "id": "Itds116",
+    "name": "Escudo Wyvern (80B)",
+    "level": 80,
+    "category": "Itds",
+    "image": "/assets/itens/Itds116.png",
+    "review": true
+  },
+  {
+    "id": "Itds117",
+    "name": "Escudo Mágico (80C)",
+    "level": 80,
+    "category": "Itds",
+    "image": "/assets/itens/Itds117.png",
+    "review": true
+  },
+  {
+    "id": "Itds118",
+    "name": "Escudo Vener (80D)",
+    "level": 80,
+    "category": "Itds",
+    "image": "/assets/itens/Itds118.png",
+    "review": true
+  },
+  {
+    "id": "Itoa214",
+    "name": "Orbital da Criação (80A)",
+    "level": 80,
+    "category": "Itoa",
+    "image": "/assets/itens/Itoa214.png",
+    "review": true
+  },
+  {
+    "id": "Itoa215",
+    "name": "Munan (80B)",
+    "level": 80,
+    "category": "Itoa",
+    "image": "/assets/itens/Itoa215.png",
+    "review": true
+  },
+  {
+    "id": "Itoa216",
+    "name": "Amuleto Salamandra (80C)",
+    "level": 80,
+    "category": "Itoa",
+    "image": "/assets/itens/Itoa216.png",
+    "review": true
+  },
+  {
+    "id": "Itoa217",
+    "name": "Cosmos (80D)",
+    "level": 80,
+    "category": "Itoa",
+    "image": "/assets/itens/Itoa217.png",
+    "review": true
+  },
+  {
+    "id": "Itoa218",
+    "name": "Clarivoyance (80E)",
+    "level": 80,
+    "category": "Itoa",
+    "image": "/assets/itens/Itoa218.png",
+    "review": true
+  },
+  {
+    "id": "Itom116",
+    "name": "Bracelete Mágico",
+    "level": 60,
+    "category": "Itom",
+    "image": "/assets/itens/Itom116.png",
+    "review": true
+  },
+  {
+    "id": "Itom117",
+    "name": "Bracelete Espinhoso",
+    "level": 65,
+    "category": "Itom",
+    "image": "/assets/itens/Itom117.png",
+    "review": true
+  },
+  {
+    "id": "Itom118",
+    "name": "Bracelete da Justiça",
+    "level": 70,
+    "category": "Itom",
+    "image": "/assets/itens/Itom118.png",
+    "review": true
+  },
+  {
+    "id": "Itom119",
+    "name": "Bracelete Minotauro",
+    "level": 75,
+    "category": "Itom",
+    "image": "/assets/itens/Itom119.png",
+    "review": true
+  },
+  {
+    "id": "Itwa113",
+    "name": "Tridente de Arremesso",
+    "level": 55,
+    "category": "Itwa",
+    "image": "/assets/itens/Itwa113.png",
+    "review": true
+  },
+  {
+    "id": "Itwa115",
+    "name": "Lança Wyvern",
+    "level": 60,
+    "category": "Itwa",
+    "image": "/assets/itens/Itwa115.png",
+    "review": true
+  },
+  {
+    "id": "Itwa116",
+    "name": "Lança Retorcida",
+    "level": 65,
+    "category": "Itwa",
+    "image": "/assets/itens/Itwa116.png",
+    "review": true
+  },
+  {
+    "id": "Itwa117",
+    "name": "Link",
+    "level": 70,
+    "category": "Itwa",
+    "image": "/assets/itens/Itwa117.png",
+    "review": true
+  },
+  {
+    "id": "Itwa118",
+    "name": "Miragem",
+    "level": 75,
+    "category": "Itwa",
+    "image": "/assets/itens/Itwa118.png",
+    "review": true
+  },
+  {
+    "id": "Itwa119",
+    "name": "Lança Mística (80A)",
+    "level": 80,
+    "category": "Itwa",
+    "image": "/assets/itens/Itwa119.png",
+    "review": true
+  },
+  {
+    "id": "Itwc114",
+    "name": "Martelo Mágico",
+    "level": 54,
+    "category": "Itwc",
+    "image": "/assets/itens/Itwc114.png",
+    "review": true
+  },
+  {
+    "id": "Itwc115",
+    "name": "Solar",
+    "level": 59,
+    "category": "Itwc",
+    "image": "/assets/itens/Itwc115.png",
+    "review": true
+  },
+  {
+    "id": "Itwc116",
+    "name": "Porrete de Guerra",
+    "level": 64,
+    "category": "Itwc",
+    "image": "/assets/itens/Itwc116.png",
+    "review": true
+  },
+  {
+    "id": "Itwc117",
+    "name": "Porrete Titan",
+    "level": 69,
+    "category": "Itwc",
+    "image": "/assets/itens/Itwc117.png",
+    "review": true
+  },
+  {
+    "id": "Itwh116",
+    "name": "Garra Wyvern",
+    "level": 60,
+    "category": "Itwh",
+    "image": "/assets/itens/Itwh116.png",
+    "review": true
+  },
+  {
+    "id": "Itwh117",
+    "name": "Garra do Caos",
+    "level": 65,
+    "category": "Itwh",
+    "image": "/assets/itens/Itwh117.png",
+    "review": true
+  },
+  {
+    "id": "Itwh118",
+    "name": "Garra Alada",
+    "level": 70,
+    "category": "Itwh",
+    "image": "/assets/itens/Itwh118.png",
+    "review": true
+  },
+  {
+    "id": "Itwh119",
+    "name": "Garra Maldita",
+    "level": 75,
+    "category": "Itwh",
+    "image": "/assets/itens/Itwh119.png",
+    "review": true
+  },
+  {
+    "id": "Itwm112",
+    "name": "Fatiador",
+    "level": 60,
+    "category": "Itwm",
+    "image": "/assets/itens/Itwm112.png",
+    "review": true
+  },
+  {
+    "id": "Itwm113",
+    "name": "Machado Gigante",
+    "level": 65,
+    "category": "Itwm",
+    "image": "/assets/itens/Itwm113.png",
+    "review": true
+  },
+  {
+    "id": "Itwm114",
+    "name": "Tomahawk",
+    "level": 70,
+    "category": "Itwm",
+    "image": "/assets/itens/Itwm114.png",
+    "review": true
+  },
+  {
+    "id": "Itwm115",
+    "name": "Machado Titan",
+    "level": 75,
+    "category": "Itwm",
+    "image": "/assets/itens/Itwm115.png",
+    "review": true
+  },
+  {
+    "id": "Itwm116",
+    "name": "Machado do Caos (80A)",
+    "level": 80,
+    "category": "Itwm",
+    "image": "/assets/itens/Itwm116.png",
+    "review": true
+  },
+  {
+    "id": "Itwm117",
+    "name": "Machado Ancião (80B)",
+    "level": 80,
+    "category": "Itwm",
+    "image": "/assets/itens/Itwm117.png",
+    "review": true
+  },
+  {
+    "id": "Itwp114",
+    "name": "Foice Titan",
+    "level": 55,
+    "category": "Itwp",
+    "image": "/assets/itens/Itwp114.png",
+    "review": true
+  },
+  {
+    "id": "Itwp115",
+    "name": "Styx",
+    "level": 60,
+    "category": "Itwp",
+    "image": "/assets/itens/Itwp115.png",
+    "review": true
+  },
+  {
+    "id": "Itwp116",
+    "name": "Asa do Dragão",
+    "level": 65,
+    "category": "Itwp",
+    "image": "/assets/itens/Itwp116.png",
+    "review": true
+  },
+  {
+    "id": "Itwp117",
+    "name": "Borboleta",
+    "level": 70,
+    "category": "Itwp",
+    "image": "/assets/itens/Itwp117.png",
+    "review": true
+  },
+  {
+    "id": "Itwp118",
+    "name": "Foice Mística",
+    "level": 75,
+    "category": "Itwp",
+    "image": "/assets/itens/Itwp118.png",
+    "review": true
+  },
+  {
+    "id": "Itwp119",
+    "name": "Hiper Foice (80A)",
+    "level": 80,
+    "category": "Itwp",
+    "image": "/assets/itens/Itwp119.png",
+    "review": true
+  },
+  {
+    "id": "Itwp120",
+    "name": "Oráculo (80B)",
+    "level": 80,
+    "category": "Itwp",
+    "image": "/assets/itens/Itwp120.png",
+    "review": true
+  },
+  {
+    "id": "Itws116",
+    "name": "Espada Gigante",
+    "level": 53,
+    "category": "Itws",
+    "image": "/assets/itens/Itws116.png",
+    "review": true
+  },
+  {
+    "id": "Itws117",
+    "name": "Highlander",
+    "level": 57,
+    "category": "Itws",
+    "image": "/assets/itens/Itws117.png",
+    "review": true
+  },
+  {
+    "id": "Itws118",
+    "name": "Espada Bastarda",
+    "level": 61,
+    "category": "Itws",
+    "image": "/assets/itens/Itws118.png",
+    "review": true
+  },
+  {
+    "id": "Itws119",
+    "name": "Espada Fatal",
+    "level": 65,
+    "category": "Itws",
+    "image": "/assets/itens/Itws119.png",
+    "review": true
+  },
+  {
+    "id": "Itws216",
+    "name": "Espada Antiga",
+    "level": 70,
+    "category": "Itws",
+    "image": "/assets/itens/Itws216.png",
+    "review": true
+  },
+  {
+    "id": "Itws217",
+    "name": "Espada Sfena",
+    "level": 75,
+    "category": "Itws",
+    "image": "/assets/itens/Itws217.png",
+    "review": true
+  },
+  {
+    "id": "Itws218",
+    "name": "Salamandra (80A)",
+    "level": 80,
+    "category": "Itws",
+    "image": "/assets/itens/Itws218.png",
+    "review": true
+  },
+  {
+    "id": "Itws219",
+    "name": "Espada da Vingança (80B)",
+    "level": 80,
+    "category": "Itws",
+    "image": "/assets/itens/Itws219.png",
+    "review": true
+  },
+  {
+    "id": "Itws220",
+    "name": "Espada Titan (80C)",
+    "level": 80,
+    "category": "Itws",
+    "image": "/assets/itens/Itws220.png",
+    "review": true
+  },
+  {
+    "id": "Itws221",
+    "name": "Espada Wyvern (80D)",
+    "level": 80,
+    "category": "Itws",
+    "image": "/assets/itens/Itws221.png",
+    "review": true
+  },
+  {
+    "id": "Itws222",
+    "name": "Espada Mortal",
+    "level": 100,
+    "category": "Itws",
+    "image": "/assets/itens/Itws222.png",
+    "review": true
+  },
+  {
+    "id": "Itwt115",
+    "name": "Cajado do Caos",
+    "level": 65,
+    "category": "Itwt",
+    "image": "/assets/itens/Itwt115.png",
+    "review": true
+  },
+  {
+    "id": "Itwt116",
+    "name": "Varinha Mágica",
+    "level": 70,
+    "category": "Itwt",
+    "image": "/assets/itens/Itwt116.png",
+    "review": true
+  },
+  {
+    "id": "Itwt117",
+    "name": "Cajado Mágico",
+    "level": 75,
+    "category": "Itwt",
+    "image": "/assets/itens/Itwt117.png",
+    "review": true
+  },
+  {
+    "id": "Itwt118",
+    "name": "Varinha dos Apóstolos (80A)",
+    "level": 80,
+    "category": "Itwt",
+    "image": "/assets/itens/Itwt118.png",
+    "review": true
+  },
+  {
+    "id": "Itwt119",
+    "name": "Cajado Antigo (80B)",
+    "level": 80,
+    "category": "Itwt",
+    "image": "/assets/itens/Itwt119.png",
+    "review": true
+  }
+]
