@@ -395,7 +395,7 @@
     "id": "Itwc114",
     "name": "Martelo Mágico",
     "level": 54,
-    "category": "Itwc",
+    "category": "Itwh",
     "image": "/assets/itens/Itwc114.png",
     "review": true
   },
@@ -403,7 +403,7 @@
     "id": "Itwc115",
     "name": "Solar",
     "level": 59,
-    "category": "Itwc",
+    "category": "Itwh",
     "image": "/assets/itens/Itwc115.png",
     "review": true
   },
@@ -411,7 +411,7 @@
     "id": "Itwc116",
     "name": "Porrete de Guerra",
     "level": 64,
-    "category": "Itwc",
+    "category": "Itwh",
     "image": "/assets/itens/Itwc116.png",
     "review": true
   },
@@ -419,7 +419,7 @@
     "id": "Itwc117",
     "name": "Porrete Titan",
     "level": 69,
-    "category": "Itwc",
+    "category": "Itwh",
     "image": "/assets/itens/Itwc117.png",
     "review": true
   },
@@ -427,7 +427,7 @@
     "id": "Itwh116",
     "name": "Garra Wyvern",
     "level": 60,
-    "category": "Itwh",
+    "category": "Itwc",
     "image": "/assets/itens/Itwh116.png",
     "review": true
   },
@@ -435,7 +435,7 @@
     "id": "Itwh117",
     "name": "Garra do Caos",
     "level": 65,
-    "category": "Itwh",
+    "category": "Itwc",
     "image": "/assets/itens/Itwh117.png",
     "review": true
   },
@@ -443,7 +443,7 @@
     "id": "Itwh118",
     "name": "Garra Alada",
     "level": 70,
-    "category": "Itwh",
+    "category": "Itwc",
     "image": "/assets/itens/Itwh118.png",
     "review": true
   },
@@ -451,7 +451,7 @@
     "id": "Itwh119",
     "name": "Garra Maldita",
     "level": 75,
-    "category": "Itwh",
+    "category": "Itwc",
     "image": "/assets/itens/Itwh119.png",
     "review": true
   },
