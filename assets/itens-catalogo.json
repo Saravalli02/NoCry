@@ -241,7 +241,7 @@
   },
   {
     "id": "Itds115",
-    "name": "Escudo Titan (80A)",
+    "name": "Escudo Sintético (80A)",
     "level": 80,
     "category": "Itds",
     "image": "/assets/itens/Itds115.png",
@@ -249,7 +249,7 @@
   },
   {
     "id": "Itds116",
-    "name": "Escudo Wyvern (80B)",
+    "name": "Escudo Titan (80B)",
     "level": 80,
     "category": "Itds",
     "image": "/assets/itens/Itds116.png",
@@ -257,7 +257,7 @@
   },
   {
     "id": "Itds117",
-    "name": "Escudo Mágico (80C)",
+    "name": "Escudo Místico (80C)",
     "level": 80,
     "category": "Itds",
     "image": "/assets/itens/Itds117.png",
@@ -265,7 +265,7 @@
   },
   {
     "id": "Itds118",
-    "name": "Escudo Vener (80D)",
+    "name": "Escudo do Vampiro (80D)",
     "level": 80,
     "category": "Itds",
     "image": "/assets/itens/Itds118.png",
