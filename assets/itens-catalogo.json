@@ -9,107 +9,107 @@
   },
   {
     "id": "Itda116",
-    "name": "Armadura Espinhosa",
-    "level": 60,
-    "category": "Itda",
-    "image": "/assets/itens/Itda116.png",
-    "review": true
-  },
-  {
-    "id": "Itda117",
-    "name": "Armadura Titan",
-    "level": 65,
-    "category": "Itda",
-    "image": "/assets/itens/Itda117.png",
-    "review": true
-  },
-  {
-    "id": "Itda118",
     "name": "Armadura Extrema",
     "level": 70,
     "category": "Itda",
-    "image": "/assets/itens/Itda118.png",
-    "review": true
+    "image": "/assets/itens/Itda116.png",
+    "review": false
   },
   {
-    "id": "Itda119",
+    "id": "Itda117",
     "name": "Armadura Antiga",
     "level": 75,
     "category": "Itda",
-    "image": "/assets/itens/Itda119.png",
-    "review": true
+    "image": "/assets/itens/Itda117.png",
+    "review": false
   },
   {
-    "id": "Itda120",
+    "id": "Itda118",
     "name": "Armadura Minotauro (80A)",
     "level": 80,
     "category": "Itda",
-    "image": "/assets/itens/Itda120.png",
-    "review": true
+    "image": "/assets/itens/Itda118.png",
+    "review": false
   },
   {
-    "id": "Itda121",
+    "id": "Itda119",
     "name": "Armadura Demoníaca (80B)",
     "level": 80,
     "category": "Itda",
-    "image": "/assets/itens/Itda121.png",
-    "review": true
+    "image": "/assets/itens/Itda119.png",
+    "review": false
   },
   {
-    "id": "Itda214",
+    "id": "Itda120",
     "name": "Armadura Salamandra (80C)",
     "level": 80,
     "category": "Itda",
-    "image": "/assets/itens/Itda214.png",
-    "review": true
+    "image": "/assets/itens/Itda120.png",
+    "review": false
   },
   {
-    "id": "Itda215",
+    "id": "Itda121",
     "name": "Armadura Wyvern (80D)",
     "level": 80,
     "category": "Itda",
+    "image": "/assets/itens/Itda121.png",
+    "review": false
+  },
+  {
+    "id": "Itda214",
+    "name": "Roupão Real",
+    "level": 55,
+    "category": "Itdr",
+    "image": "/assets/itens/Itda214.png",
+    "review": false
+  },
+  {
+    "id": "Itda215",
+    "name": "Roupão Místico",
+    "level": 60,
+    "category": "Itdr",
     "image": "/assets/itens/Itda215.png",
-    "review": true
+    "review": false
   },
   {
     "id": "Itda216",
-    "name": "Armadura do Dragão (80E)",
-    "level": 80,
-    "category": "Itda",
+    "name": "Roupão Divino",
+    "level": 65,
+    "category": "Itdr",
     "image": "/assets/itens/Itda216.png",
-    "review": true
+    "review": false
   },
   {
     "id": "Itda217",
-    "name": "Armadura Fênix",
-    "level": 100,
-    "category": "Itda",
+    "name": "Roupão de Episcopisas",
+    "level": 70,
+    "category": "Itdr",
     "image": "/assets/itens/Itda217.png",
-    "review": true
+    "review": false
   },
   {
     "id": "Itda218",
-    "name": "Armadura Frenesi",
-    "level": 100,
-    "category": "Itda",
+    "name": "Roupão Celestial",
+    "level": 75,
+    "category": "Itdr",
     "image": "/assets/itens/Itda218.png",
-    "review": true
+    "review": false
   },
   {
     "id": "Itda219",
-    "name": "Armadura Mística",
-    "level": 100,
-    "category": "Itda",
+    "name": "Roupão da Salvação (80A)",
+    "level": 80,
+    "category": "Itdr",
     "image": "/assets/itens/Itda219.png",
-    "review": true
+    "review": false
   },
   {
     "id": "Itda220",
-    "name": "Armadura Mágica",
-    "level": 100,
-    "category": "Itda",
+    "name": "Roupão Alquimista (80B)",
+    "level": 80,
+    "category": "Itdr",
     "image": "/assets/itens/Itda220.png",
-    "review": true
+    "review": false
   },
   {
     "id": "Itdb113",
