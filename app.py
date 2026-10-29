@@ -139,5 +139,17 @@ with app.app_context():
             for _table in ('market_matches', 'market_notices', 'market_offers', 'market_requests'):
                 _conn.execute(_market_sql(f'DELETE FROM {_table}'))
 
+# Atualização pontual do ranking fornecido pelos membros em 29/10/2026.
+# Apenas nível/EXP dos personagens NOCRY existentes; preserva owner_id e aprovações.
+with app.app_context():
+    from sqlalchemy import text as _rank_sql
+    _rank_rows = [["Agressor[AS]",84,39.4],["BilGun",84,37],["GEPETTO",84,36.5],["Opressor",84,35.3],["Mago",84,33.7],["KUNDO",84,30.4],["MaTchoLa",83,10.7],["zSilentEdge",83,8.4],["Snoopy",83,8.3],["BIGMAR",83,3.6],["Afoice",83,1.9],["Leitinho",82,98.1],["BuRgUeZiiNhA",82,95.6],["Datena",82,94.7],["RealTRAP",82,89.8],["TheStrangler",82,18.4],["VENLAFAXINA",82,9.4],["Salluri",81,87.3],["DanielVorcaro",81,85.3],["Maiorali",81,48.5],["isackinaks",81,30.8]]
+    with portal_db.engine.begin() as _conn:
+        _conn.execute(_rank_sql('CREATE TABLE IF NOT EXISTS market_launch_migrations (key VARCHAR(100) PRIMARY KEY)'))
+        _apply_rank = _conn.execute(_rank_sql("INSERT INTO market_launch_migrations (key) VALUES ('nocry_rank_20261029_user_snapshot') ON CONFLICT (key) DO NOTHING RETURNING key")).scalar()
+        if _apply_rank:
+            for _name, _level, _exp in _rank_rows:
+                _conn.execute(_rank_sql('UPDATE character SET level=:level, percent=:exp, updated_at=NOW() WHERE lower(name)=lower(:name) AND tag=:tag AND (level < :level OR (level = :level AND percent < :exp))'), {'name':_name,'level':_level,'exp':_exp,'tag':'NOCRY'})
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=int(os.environ.get('PORT','5000')))
