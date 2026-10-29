@@ -125,6 +125,8 @@ with app.app_context():
     for table in ('market_requests', 'market_offers'):
         with portal_db.engine.begin() as conn:
             conn.execute(text(f'ALTER TABLE {table} ADD COLUMN IF NOT EXISTS spec VARCHAR(20)'))
+            conn.execute(text(f'ALTER TABLE {table} ADD COLUMN IF NOT EXISTS quantity INTEGER NOT NULL DEFAULT 1'))
+            conn.execute(text(f'ALTER TABLE {table} ADD COLUMN IF NOT EXISTS fulfilled INTEGER NOT NULL DEFAULT 0'))
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=int(os.environ.get('PORT','5000')))
