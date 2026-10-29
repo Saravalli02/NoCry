@@ -1,7 +1,7 @@
 """Mercado NOCRY: filas de pedidos, ofertas, mediação e notificações privadas."""
 from datetime import datetime, timezone
 from flask import Blueprint, jsonify, request
-from sqlalchemy import or_
+from sqlalchemy import or_, text
 from portal import db, User, auth, current_user
 
 market = Blueprint('market', __name__)
@@ -13,6 +13,7 @@ class MarketRequest(db.Model):
     user_id=db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False,index=True)
     item=db.Column(db.String(100),nullable=False,index=True)
     level=db.Column(db.Integer,nullable=True)
+    spec=db.Column(db.String(20),nullable=True)
     mode=db.Column(db.String(12),nullable=False)
     bid=db.Column(db.Numeric(12,2),nullable=True)
     note=db.Column(db.String(400),default='')
@@ -46,9 +47,9 @@ class MarketNotice(db.Model):
 
 def clean(x,limit): return str(x or '').strip()[:limit]
 def serialize_request(x):
-    return dict(id=x.id,item=x.item,level=x.level,mode=x.mode,bid=float(x.bid) if x.bid is not None else None,note=x.note,status=x.status,username=db.session.get(User,x.user_id).username,created=x.created_at.isoformat())
+    return dict(id=x.id,item=x.item,level=x.level,mode=x.mode,spec=x.spec,bid=float(x.bid) if x.bid is not None else None,note=x.note,status=x.status,username=db.session.get(User,x.user_id).username,created=x.created_at.isoformat())
 def serialize_offer(x):
-    return dict(id=x.id,item=x.item,level=x.level,mode=x.mode,price=float(x.price) if x.price is not None else None,note=x.note,status=x.status,username=db.session.get(User,x.user_id).username,created=x.created_at.isoformat())
+    return dict(id=x.id,item=x.item,level=x.level,mode=x.mode,spec=x.spec,price=float(x.price) if x.price is not None else None,note=x.note,status=x.status,username=db.session.get(User,x.user_id).username,created=x.created_at.isoformat())
 def fail(msg): return jsonify(error=msg),400
 def fields():
     d=request.get_json(silent=True) or {}
@@ -61,7 +62,9 @@ def fields():
     contact=clean(d.get('contact'),12)
     contact_value=clean(d.get('contact_value'),100)
     if contact not in ('discord','whatsapp') or len(contact_value)<3: return None
-    return d,item,level,contact,contact_value
+    spec=clean(d.get('spec'),20)
+    if spec not in ('Pike','Atalanta','Lutador','Cavaleiro','Sacerdotisa','Mago','Arqueira','Mecânico','NS'): return None
+    return d,item,level,contact,contact_value,spec
 
 @market.get('/api/market')
 @auth
@@ -77,13 +80,13 @@ def listing():
 def request_item():
     f=fields()
     if not f: return fail('Informe item, nível válido e contato Discord ou WhatsApp.')
-    d,item,level,contact,value=f
+    d,item,level,contact,value,spec=f
     mode=clean(d.get('mode'),12)
     if mode not in ('donation','buy','either'): return fail('Escolha doação, compra ou ambas.')
     try: bid=float(d['bid']) if str(d.get('bid','')).strip() else None
     except (ValueError,TypeError): return fail('Valor inválido.')
     if bid is not None and (bid<=0 or bid>100000000): return fail('Valor inválido.')
-    x=MarketRequest(user_id=current_user().id,item=item,level=level,mode=mode,bid=bid,note=clean(d.get('note'),400),contact=contact,contact_value=value)
+    x=MarketRequest(user_id=current_user().id,item=item,level=level,spec=spec,mode=mode,bid=bid,note=clean(d.get('note'),400),contact=contact,contact_value=value)
     db.session.add(x);db.session.commit()
     return jsonify(ok=True,id=x.id)
 
@@ -98,7 +101,7 @@ def offer_item():
     try: price=float(d['price']) if str(d.get('price','')).strip() else None
     except (ValueError,TypeError): return fail('Preço inválido.')
     if mode=='sale' and (price is None or not 0<price<=100000000): return fail('Informe o preço da venda.')
-    x=MarketOffer(user_id=current_user().id,item=item,level=level,mode=mode,price=price if mode=='sale' else None,note=clean(d.get('note'),400),contact=contact,contact_value=value)
+    x=MarketOffer(user_id=current_user().id,item=item,level=level,spec=spec,mode=mode,price=price if mode=='sale' else None,note=clean(d.get('note'),400),contact=contact,contact_value=value)
     db.session.add(x);db.session.commit()
     return jsonify(ok=True,id=x.id)
 
@@ -109,7 +112,7 @@ def match(offer_id):
     if not x or x.user_id!=current_user().id or x.status!='open': return fail('Oferta indisponível.')
     d=request.get_json(silent=True) or {}
     candidates=MarketRequest.query.filter_by(status='open').order_by(MarketRequest.created_at,MarketRequest.id).all()
-    eligible=[q for q in candidates if q.item.casefold()==x.item.casefold() and (q.level is None or x.level is None or q.level==x.level) and q.user_id!=x.user_id and (q.mode in ('donation','either') if x.mode=='donation' else q.mode in ('buy','either'))]
+    eligible=[q for q in candidates if q.item.casefold()==x.item.casefold() and q.spec==x.spec and (q.level is None or x.level is None or q.level==x.level) and q.user_id!=x.user_id and (q.mode in ('donation','either') if x.mode=='donation' else q.mode in ('buy','either'))]
     selected=next((q for q in eligible if q.id==d.get('request_id')),None) if d.get('request_id') else (eligible[0] if eligible else None)
     if not selected: return fail('Nenhum pedido compatível na fila.')
     x.status='matched';x.matched_request_id=selected.id;selected.status='matched'
