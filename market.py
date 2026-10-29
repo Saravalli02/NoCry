@@ -197,5 +197,11 @@ def close(kind,entry_id):
     x=model.query.filter_by(id=entry_id).with_for_update().first()
     if not x or x.user_id!=current_user().id or x.status!='open':return fail('Registro indisponível.')
     if pending(kind,x.id):return fail('Existem entregas pendentes. Confirme ou cancele as reservas antes de remover.')
-    x.status='closed';db.session.commit()
+    data=request.get_json(silent=True) or {}
+    reason=data.get('reason','removed') if isinstance(data,dict) else 'removed'
+    if reason not in ('removed','sold','donated'):return fail('Motivo inválido.')
+    if kind=='request' and reason!='removed':return fail('Pedidos só podem ser removidos.')
+    if kind=='offer' and reason=='sold' and x.mode!='sale':return fail('Esta oferta não é uma venda.')
+    if kind=='offer' and reason=='donated' and x.mode!='donation':return fail('Esta oferta não é uma doação.')
+    x.status=reason;db.session.commit()
     return jsonify(ok=True)
