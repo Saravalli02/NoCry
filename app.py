@@ -114,5 +114,12 @@ def inscricao():
 from portal import setup as setup_portal
 setup_portal(app)
 
+# Mercado interno do clã (somente no portal de testes)
+from market import market as market_blueprint
+from portal import db as portal_db
+app.register_blueprint(market_blueprint)
+with app.app_context():
+    portal_db.create_all()
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=int(os.environ.get('PORT','5000')))
