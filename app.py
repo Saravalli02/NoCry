@@ -114,5 +114,30 @@ def inscricao():
 from portal import setup as setup_portal
 setup_portal(app)
 
+# Mercado interno do clã (somente no portal de testes)
+from market import market as market_blueprint
+from portal import db as portal_db
+app.register_blueprint(market_blueprint)
+with app.app_context():
+    portal_db.create_all()
+    from sqlalchemy import text
+    # Atualização aditiva, preservando anúncios existentes.
+    for table in ('market_requests', 'market_offers'):
+        with portal_db.engine.begin() as conn:
+            conn.execute(text(f'ALTER TABLE {table} ADD COLUMN IF NOT EXISTS spec VARCHAR(20)'))
+            conn.execute(text(f'ALTER TABLE {table} ADD COLUMN IF NOT EXISTS quantity INTEGER NOT NULL DEFAULT 1'))
+            conn.execute(text(f'ALTER TABLE {table} ADD COLUMN IF NOT EXISTS fulfilled INTEGER NOT NULL DEFAULT 0'))
+
+# Limpeza única dos registros de teste na primeira publicação pública.
+# Preserva usuários, personagens, aprovações e demais dados do portal.
+with app.app_context():
+    from sqlalchemy import text as _market_sql
+    with portal_db.engine.begin() as _conn:
+        _conn.execute(_market_sql('CREATE TABLE IF NOT EXISTS market_launch_migrations (key VARCHAR(100) PRIMARY KEY)'))
+        _first = _conn.execute(_market_sql("INSERT INTO market_launch_migrations (key) VALUES ('public_market_launch_20261029') ON CONFLICT (key) DO NOTHING RETURNING key")).scalar()
+        if _first:
+            for _table in ('market_matches', 'market_notices', 'market_offers', 'market_requests'):
+                _conn.execute(_market_sql(f'DELETE FROM {_table}'))
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=int(os.environ.get('PORT','5000')))

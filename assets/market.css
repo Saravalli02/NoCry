@@ -1,0 +1,48 @@
+/* Mercado NOCRY — visual inspirado no leilão do jogo */
+#marketPanel{background:linear-gradient(160deg,#24190e,#0b0907 70%)!important;border:1px solid #97713a!important;color:#ebd5a8!important;max-width:1400px}
+#marketApp{font-family:Georgia,serif;color:#e8d4ac}
+#marketApp .mk-nav{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;margin:14px 0}
+#marketApp .mk-nav button{min-height:55px;border:1px solid #665030;background:linear-gradient(#2e2419,#130e09);color:#e3d1a7;border-radius:6px;cursor:pointer;font:600 13px Georgia}
+#marketApp .mk-nav button.active{border-color:#efb957;box-shadow:inset 0 -3px #e8a94a,0 0 9px #9b693d}
+#marketApp .mk-layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:12px}
+#marketApp .mk-filters{padding:12px;background:#1b140d;border:1px solid #66502b;border-radius:7px;align-self:start}
+#marketApp .mk-filters label{display:block;margin:12px 0 5px;color:#d9b56d;font-size:12px}
+#marketApp input,#marketApp select,#marketApp textarea{box-sizing:border-box;max-width:100%;width:100%;padding:9px;background:#100c08;border:1px solid #6f5633;color:#f1d7a3;border-radius:4px;font:13px Georgia}
+#marketApp .mk-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+#marketApp .mk-card{padding:10px;border:1px solid #68512c;background:linear-gradient(#281f13,#130e0a);border-radius:6px;min-width:0}
+#marketApp .mk-card-main{display:flex;gap:9px;min-height:80px}
+#marketApp .mk-img{height:72px;width:72px;flex-shrink:0;display:grid;place-items:center;background:#080706;border:1px solid #957036;border-radius:5px}
+#marketApp .mk-img img{width:64px;height:64px;object-fit:contain}
+#marketApp .mk-itemname{font-size:14px;color:#fff0ce;font-weight:700}
+#marketApp .mk-pill{display:inline-block;margin:4px 3px 3px 0;border:1px solid #927033;border-radius:12px;padding:3px 6px;background:#4a320f;color:#ffce71;font-size:11px}
+#marketApp .mk-muted{color:#b8a386;font-size:12px;margin:5px 0}
+#marketApp .mk-button{background:linear-gradient(#397e36,#155022);border:1px solid #b5d881;color:#fff;padding:9px 11px;border-radius:5px;cursor:pointer;font:700 12px Georgia}
+#marketApp .mk-button.secondary{background:linear-gradient(#7c4c20,#45240e);border-color:#c89b52}
+#marketApp .mk-card .mk-button{width:100%;margin-top:8px}
+#marketApp .mk-form{max-width:620px;display:grid;gap:10px;padding:15px;background:#1c140c;border:1px solid #6c522b;border-radius:7px}
+#marketApp .mk-form label{display:grid;gap:5px}
+#marketApp .mk-bell{float:right;border:1px solid #dca552;border-radius:18px;padding:8px 12px;background:#3d280f;color:#ffe1a1;cursor:pointer}
+#marketApp .mk-empty{padding:30px;text-align:center;color:#bba883}
+@media(max-width:1050px){#marketApp .mk-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){#marketApp .mk-nav{grid-template-columns:repeat(3,1fr)}#marketApp .mk-layout{grid-template-columns:1fr}#marketApp .mk-cards{grid-template-columns:1fr}}
+
+/* Escolha guiada de itens, com imagens do catálogo do clã */
+#marketApp .mk-form{max-width:100%;width:100%}
+#marketApp .mk-step{display:grid;gap:12px;padding:14px;background:#160f09;border:1px solid #76552d;border-radius:8px}
+#marketApp .mk-step>strong{color:#f2be71;font-size:16px}
+#marketApp .mk-categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px}
+#marketApp .mk-cat{background:#261a10;border:1px solid #76542c;border-radius:6px;padding:12px 8px;color:#f0d2a3;cursor:pointer}
+#marketApp .mk-cat.active,#marketApp .mk-pick.active{border-color:#f6c15d;box-shadow:0 0 0 2px #b36c2d;background:#3b2111}
+#marketApp .mk-picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:9px;max-height:470px;overflow-y:auto;padding:5px}
+#marketApp .mk-pick{display:flex;align-items:center;flex-direction:column;gap:6px;background:#110d09;border:1px solid #6e522e;border-radius:7px;padding:10px 5px;color:#f1d5aa;cursor:pointer;font-family:Georgia}
+#marketApp .mk-pick img{width:76px;height:76px;object-fit:contain;image-rendering:auto;background:#050505;border-radius:4px}
+#marketApp .mk-pick span{font-size:12px;min-height:30px;overflow-wrap:anywhere}
+#marketApp .mk-pick small{color:#e6a94e}
+#marketApp .mk-selected{display:flex;gap:14px;align-items:center;border:1px solid #6e522e;padding:10px;background:#100c08}
+#marketApp .mk-selected img{width:70px;height:70px;object-fit:contain;background:#050505}
+#marketApp .mk-selected small{color:#b5a081}
+
+#marketApp .mk-bell-alert{background:#9b1c1c!important;border:2px solid #ff4d4d!important;color:#fff!important;box-shadow:0 0 16px rgba(255,37,37,.75);animation:mk-notice-pulse 1.8s infinite}
+#marketApp .mk-notice{border-left:3px solid #e79b4e;padding:12px;background:#20160e;margin:9px 0;border-radius:5px;color:#f4d4ac}
+#marketApp .mk-notice-new{border-left:5px solid #f33;background:#3b1515;color:#fff;box-shadow:inset 0 0 0 1px #7e2d2d}
+@keyframes mk-notice-pulse{50%{box-shadow:0 0 23px rgba(255,37,37,.95)}}
