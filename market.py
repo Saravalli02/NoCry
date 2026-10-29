@@ -148,9 +148,16 @@ def match(u, offer_id):
     if not q:return fail('Nenhum pedido compatível disponível.')
     db.session.add(MarketMatch(offer_id=x.id,request_id=q.id))
     owner=db.session.get(User,x.user_id);recipient=db.session.get(User,q.user_id)
-    action='doar' if x.mode=='donation' else 'negociar'
-    db.session.add(MarketNotice(user_id=q.user_id,message=f'{owner.username} deseja {action} {x.item} com você. Contato: {x.contact}: {x.contact_value}. Confirme o recebimento no Mercado NOCRY.'))
-    db.session.add(MarketNotice(user_id=x.user_id,message=f'Reserva de {x.item} para {recipient.username}. Contato: {q.contact}: {q.contact_value}. Aguarde a confirmação de recebimento.'))
+    owner_contact='WhatsApp' if x.contact=='whatsapp' else 'Discord'
+    recipient_contact='WhatsApp' if q.contact=='whatsapp' else 'Discord'
+    if x.mode=='donation':
+        recipient_message=f'O usuário {owner.username} quer doar {x.item} para você. Entre em contato pelo {owner_contact}: {x.contact_value}. Confirme o recebimento no Mercado NOCRY.'
+        owner_message=f'O usuário {recipient.username} está na fila para receber sua doação de {x.item}. Entre em contato pelo {recipient_contact}: {q.contact_value}.'
+    else:
+        recipient_message=f'O usuário {owner.username} quer negociar {x.item} com você. Entre em contato pelo {owner_contact}: {x.contact_value}.'
+        owner_message=f'O usuário {recipient.username} quer negociar {x.item} com você. Entre em contato pelo {recipient_contact}: {q.contact_value}.'
+    db.session.add(MarketNotice(user_id=q.user_id,message=recipient_message))
+    db.session.add(MarketNotice(user_id=x.user_id,message=owner_message))
     db.session.commit()
     return jsonify(ok=True,recipient=recipient.username)
 
