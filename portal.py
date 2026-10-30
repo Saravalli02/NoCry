@@ -197,6 +197,22 @@ def login():
     session.clear();session['uid']=u.id;session['csrf']=secrets.token_urlsafe(32);session['pwd_sig']=hashlib.sha256(u.password_hash.encode()).hexdigest();session.permanent=True
     return jsonify(ok=True,admin=u.is_admin)
 
+@portal.post('/api/auth/change-password')
+@auth
+def change_password(u):
+    d=body()
+    old=str(d.get('current_password',''))
+    pw=str(d.get('new_password',''))
+    if not check_password_hash(u.password_hash,old):return error('Senha atual incorreta.',403)
+    if not (10<=len(pw)<=128 and re.search('[A-Z]',pw) and re.search('[a-z]',pw) and re.search('[0-9]',pw) and re.search('[^A-Za-z0-9]',pw)):
+        return error('A nova senha precisa ter 10 a 128 caracteres, maiúscula, minúscula, número e símbolo.')
+    if pw==old:return error('Escolha uma senha diferente da atual.')
+    u.password_hash=generate_password_hash(pw)
+    db.session.commit()
+    session['pwd_sig']=hashlib.sha256(u.password_hash.encode()).hexdigest()
+    session['csrf']=secrets.token_urlsafe(32)
+    return jsonify(ok=True,message='Senha alterada. Outros dispositivos precisarão entrar novamente.',csrf=session['csrf'])
+
 @portal.post('/api/auth/logout')
 def logout(): session.clear();return jsonify(ok=True)
 
