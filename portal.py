@@ -349,6 +349,32 @@ def account_decision(u,uid):
     db.session.commit()
     return jsonify(ok=True)
 
+@portal.post('/api/admin/accounts/approve-all')
+@admin
+def approve_all_accounts(u):
+    pending=User.query.filter_by(verified=False,is_admin=False).all()
+    for account in pending:account.verified=True
+    db.session.commit()
+    return jsonify(ok=True,approved=len(pending))
+
+@portal.post('/api/admin/claims/approve-all')
+@admin
+def approve_all_claims(u):
+    approved=0;skipped=0
+    pending=Claim.query.filter_by(status='pending').order_by(Claim.created_at,Claim.id).all()
+    for cl in pending:
+        ch=db.session.get(Character,cl.character_id)
+        account=db.session.get(User,cl.user_id)
+        if not ch or not account or not account.verified or ch.owner_id is not None:
+            skipped+=1
+            continue
+        ch.owner_id=cl.user_id
+        for other in Claim.query.filter_by(character_id=ch.id,status='pending').all():
+            other.status='approved' if other.id==cl.id else 'rejected'
+        approved+=1
+    db.session.commit()
+    return jsonify(ok=True,approved=approved,skipped=skipped)
+
 @portal.get('/api/admin/users')
 @admin
 def admin_users(u):
