@@ -197,6 +197,22 @@ def login():
     session.clear();session['uid']=u.id;session['csrf']=secrets.token_urlsafe(32);session['pwd_sig']=hashlib.sha256(u.password_hash.encode()).hexdigest();session.permanent=True
     return jsonify(ok=True,admin=u.is_admin)
 
+@portal.post('/api/auth/change-password')
+@auth
+def change_password(u):
+    d=body()
+    old=str(d.get('current_password',''))
+    pw=str(d.get('new_password',''))
+    if not check_password_hash(u.password_hash,old):return error('Senha atual incorreta.',403)
+    if not (10<=len(pw)<=128 and re.search('[A-Z]',pw) and re.search('[a-z]',pw) and re.search('[0-9]',pw) and re.search('[^A-Za-z0-9]',pw)):
+        return error('A nova senha precisa ter 10 a 128 caracteres, maiúscula, minúscula, número e símbolo.')
+    if pw==old:return error('Escolha uma senha diferente da atual.')
+    u.password_hash=generate_password_hash(pw)
+    db.session.commit()
+    session['pwd_sig']=hashlib.sha256(u.password_hash.encode()).hexdigest()
+    session['csrf']=secrets.token_urlsafe(32)
+    return jsonify(ok=True,message='Senha alterada. Outros dispositivos precisarão entrar novamente.',csrf=session['csrf'])
+
 @portal.post('/api/auth/logout')
 def logout(): session.clear();return jsonify(ok=True)
 
@@ -332,6 +348,32 @@ def account_decision(u,uid):
         db.session.delete(account)
     db.session.commit()
     return jsonify(ok=True)
+
+@portal.post('/api/admin/accounts/approve-all')
+@admin
+def approve_all_accounts(u):
+    pending=User.query.filter_by(verified=False,is_admin=False).all()
+    for account in pending:account.verified=True
+    db.session.commit()
+    return jsonify(ok=True,approved=len(pending))
+
+@portal.post('/api/admin/claims/approve-all')
+@admin
+def approve_all_claims(u):
+    approved=0;skipped=0
+    pending=Claim.query.filter_by(status='pending').order_by(Claim.created_at,Claim.id).all()
+    for cl in pending:
+        ch=db.session.get(Character,cl.character_id)
+        account=db.session.get(User,cl.user_id)
+        if not ch or not account or not account.verified or ch.owner_id is not None:
+            skipped+=1
+            continue
+        ch.owner_id=cl.user_id
+        for other in Claim.query.filter_by(character_id=ch.id,status='pending').all():
+            other.status='approved' if other.id==cl.id else 'rejected'
+        approved+=1
+    db.session.commit()
+    return jsonify(ok=True,approved=approved,skipped=skipped)
 
 @portal.get('/api/admin/users')
 @admin
