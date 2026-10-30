@@ -104,7 +104,7 @@ def compatible(q,x):
 
 def notify_availability(q,x):
     place='Doações' if x.mode=='donation' else 'Vendas'
-    db.session.add(MarketNotice(user_id=q.user_id,message=f'🔔 O item {x.item} (nível {x.level}, {x.spec}) que você pediu foi anunciado em {place}! Abra Mercado NOCRY > {place} e procure o anúncio de {db.session.get(User,x.user_id).username}.'))
+    db.session.add(MarketNotice(user_id=q.user_id,message=f'🔔 O item {x.item} (nível {x.level}, {x.spec}) que você pediu foi anunciado em {place}! Abra Mercado NOCRY > {place} e procure o anúncio de {db.session.get(User,x.user_id).username}. [[offer:{x.id}:{x.mode}]]'))
 
 @market.get('/api/market')
 @auth
