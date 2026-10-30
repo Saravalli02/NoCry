@@ -96,6 +96,16 @@ def money(d,key):
         return amount.quantize(Decimal('.01'))
     except (InvalidOperation,ValueError,TypeError):raise ValueError('Valor inválido')
 
+def compatible(q,x):
+    return (q.status=='open' and q.user_id!=x.user_id and q.item.casefold()==x.item.casefold()
+            and q.spec==x.spec and (q.level is None or x.level is None or q.level==x.level)
+            and (q.mode in ('donation','either') if x.mode=='donation' else q.mode in ('buy','either'))
+            and remaining(q,'request')>0)
+
+def notify_availability(q,x):
+    place='Doações' if x.mode=='donation' else 'Vendas'
+    db.session.add(MarketNotice(user_id=q.user_id,message=f'🔔 O item {x.item} (nível {x.level}, {x.spec}) que você pediu foi anunciado em {place}! Abra Mercado NOCRY > {place} e procure o anúncio de {db.session.get(User,x.user_id).username}. [[offer:{x.id}:{x.mode}]]'))
+
 @market.get('/api/market')
 @auth
 def listing(u):
@@ -117,7 +127,10 @@ def request_item(u):
     try:bid=money(d,'bid')
     except ValueError as exc:return fail(str(exc))
     x=MarketRequest(user_id=current_user().id,item=item,level=level,spec=spec,quantity=quantity,mode=mode,bid=bid,note=clean(d.get('note'),400),contact=contact,contact_value=value)
-    db.session.add(x);db.session.commit()
+    db.session.add(x);db.session.flush()
+    for offer in MarketOffer.query.filter_by(status='open').all():
+        if compatible(x,offer) and remaining(offer,'offer')>0:notify_availability(x,offer)
+    db.session.commit()
     return jsonify(ok=True,id=x.id)
 
 @market.post('/api/market/offer')
@@ -132,7 +145,10 @@ def offer_item(u):
     except ValueError as exc:return fail(str(exc))
     if mode=='sale' and price is None:return fail('Informe o preço da venda.')
     x=MarketOffer(user_id=current_user().id,item=item,level=level,spec=spec,quantity=quantity,mode=mode,price=price if mode=='sale' else None,note=clean(d.get('note'),400),contact=contact,contact_value=value)
-    db.session.add(x);db.session.commit()
+    db.session.add(x);db.session.flush()
+    for wanted in MarketRequest.query.filter_by(status='open').all():
+        if compatible(wanted,x):notify_availability(wanted,x)
+    db.session.commit()
     return jsonify(ok=True,id=x.id)
 
 @market.post('/api/market/offer/<int:offer_id>/match')
