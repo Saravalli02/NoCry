@@ -82,7 +82,7 @@ def fields():
         quantity=int(d.get('quantity',1))
     except (ValueError,TypeError):return None
     if level is not None and not 1<=level<=999:return None
-    if not 1<=quantity<=99:return None
+    if not 1<=quantity<=2147483647:return None
     spec=clean(d.get('spec'),20)
     contact=clean(d.get('contact'),12)
     contact_value=clean(d.get('contact_value'),100)
@@ -110,7 +110,7 @@ def notify_availability(q,x):
 @auth
 def listing(u):
     uid=current_user().id
-    requests=MarketRequest.query.filter_by(status='open').order_by(MarketRequest.created_at,MarketRequest.id).limit(250).all()
+    requests=MarketRequest.query.filter_by(status='open').order_by(MarketRequest.created_at,MarketRequest.id).all()
     offers=MarketOffer.query.filter_by(status='open').order_by(MarketOffer.created_at,MarketOffer.id).limit(250).all()
     notices=MarketNotice.query.filter_by(user_id=uid).order_by(MarketNotice.id.desc()).limit(30).all()
     matches=MarketMatch.query.join(MarketRequest,MarketMatch.request_id==MarketRequest.id).join(MarketOffer,MarketMatch.offer_id==MarketOffer.id).filter(db.or_(MarketRequest.user_id==uid,MarketOffer.user_id==uid)).order_by(MarketMatch.id.desc()).limit(100).all()
@@ -120,7 +120,7 @@ def listing(u):
 @auth
 def request_item(u):
     f=fields()
-    if not f:return fail('Informe item, Spec, quantidade (1 a 99) e contato.')
+    if not f:return fail('Informe item, Spec, quantidade positiva e contato.')
     d,item,level,spec,quantity,contact,value=f
     mode=clean(d.get('mode'),12)
     if mode not in ('donation','buy','either'):return fail('Modalidade inválida.')
@@ -137,7 +137,7 @@ def request_item(u):
 @auth
 def offer_item(u):
     f=fields()
-    if not f:return fail('Informe item, Spec, quantidade (1 a 99) e contato.')
+    if not f:return fail('Informe item, Spec, quantidade positiva e contato.')
     d,item,level,spec,quantity,contact,value=f
     mode=clean(d.get('mode'),12)
     if mode not in ('donation','sale'):return fail('Modalidade inválida.')
